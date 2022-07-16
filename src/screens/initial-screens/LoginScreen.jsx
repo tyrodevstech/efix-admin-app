@@ -18,14 +18,15 @@ import { Ionicons } from '@expo/vector-icons';
 import * as SecureStore from 'expo-secure-store';
 
 import { BASE_URL } from '../../global';
-import { CrudLoading } from '../../components/loading';
+import { CrudLoading, Loading } from '../../components/loading';
 import { AuthContext } from '../../context/AuthContext';
 import { LoadingContext } from '../../context/LoadingContext';
-import { setSSValueFor } from '../../utils';
+import { handleError, setSSValueFor } from '../../utils';
 
 const image = require('../../../assets/login-bg.png');
 
 export const LoginScreen = ({ route, navigation }) => {
+	const [isLoading, setIsLoading] = useState(true);
 	const { crudLoading, setCrudLoading } = useContext(LoadingContext);
 	const { setUser, authToken, setAuthToken } = useContext(AuthContext);
 	const [passShow, setPassShow] = useState(false);
@@ -35,8 +36,8 @@ export const LoginScreen = ({ route, navigation }) => {
 		formState: { errors },
 	} = useForm({ mode: 'onChange' });
 
-	const getUser = (token, userId) => {
-		axios
+	const getUser = async (token, userId) => {
+		await axios
 			.get(`${BASE_URL}/api/admin/${userId}`, {
 				headers: {
 					'Content-Type': 'application/json',
@@ -50,11 +51,7 @@ export const LoginScreen = ({ route, navigation }) => {
 					navigation.replace('MainNav');
 				}
 			})
-			.catch((error) => {
-				for (const [key, value] of Object.entries(error.response.data)) {
-					Alert.alert('Error', String(value));
-				}
-			});
+			.catch((error) => handleError(error));
 	};
 
 	const authenticate = async () => {
@@ -70,11 +67,15 @@ export const LoginScreen = ({ route, navigation }) => {
 	};
 
 	useEffect(() => {
+		setIsLoading(true);
 		authenticate();
 		// navigation.addListener('focus', (e) => {
 		// 	getAdmins();
 		// });
+		setIsLoading(false);
 	}, []);
+
+	if (isLoading) return <Loading />;
 
 	const onSubmit = async (data) => {
 		setCrudLoading(true);
@@ -95,12 +96,7 @@ export const LoginScreen = ({ route, navigation }) => {
 					Alert.alert('Success', 'Logged in successfully');
 				}
 			})
-			.catch((error) => {
-				console.log(error.response);
-				for (const [key, value] of Object.entries(error.response.data)) {
-					Alert.alert('Error', String(value));
-				}
-			});
+			.catch((error) => handleError(error));
 		setCrudLoading(false);
 	};
 
@@ -117,7 +113,7 @@ export const LoginScreen = ({ route, navigation }) => {
 			<Container h='100%' w='100%' maxWidth='100%'>
 				<VStack
 					width='100%'
-					padding='7'
+					padding='5'
 					color='#fff'
 					justifyContent='center'
 					flex={1}>

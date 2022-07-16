@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BASE_URL } from '../global';
 import { LoadingContext } from './LoadingContext';
 import { AuthContext } from './AuthContext';
+import { handleError } from '../utils';
 
 export const ActionContext = createContext();
 
@@ -13,6 +14,9 @@ export const ActionProvider = ({ children }) => {
 	const [invoices, setInvoices] = useState([]);
 	const { setIsLoading, setCrudLoading } = useContext(LoadingContext);
 	const { authToken } = useContext(AuthContext);
+	const [showAreaModal, setShowAreaModal] = useState(false);
+	const [areaMode, setAreaMode] = useState('Create');
+
 	const header = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -28,15 +32,17 @@ export const ActionProvider = ({ children }) => {
 			.then((response) => {
 				setService(response.data);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => handleError(error));
 		setIsLoading(false);
 	};
-	const updateService = async (data,id) => {
+	const updateService = async (data, id) => {
 		setIsLoading(true);
 		await axios
-			.patch(`${BASE_URL}/api/service_request/${id}`,data, header)
-			.then((response) => Alert.alert('Success', 'Service updated successfully'))
-			.catch((error) => console.log(error));
+			.patch(`${BASE_URL}/api/service_request/${id}`, data, header)
+			.then((response) =>
+				Alert.alert('Success', 'Service updated successfully'),
+			)
+			.catch((error) => handleError(error));
 		setIsLoading(false);
 	};
 
@@ -48,7 +54,7 @@ export const ActionProvider = ({ children }) => {
 			.then((response) => {
 				setInvoices(response.data);
 			})
-			.catch((error) => console.log(error.response?._response));
+			.catch((error) => handleError(error));
 		setIsLoading(false);
 	};
 	const handlePaymentStatus = (id, status) => {
@@ -81,13 +87,7 @@ export const ActionProvider = ({ children }) => {
 								);
 								getInvoices();
 							})
-							.catch((error) => {
-								for (const [key, value] of Object.entries(
-									error.response.data,
-								)) {
-									Alert.alert('Error', String(value));
-								}
-							});
+							.catch((error) => handleError(error));
 						setCrudLoading(false);
 					},
 				},
@@ -105,11 +105,7 @@ export const ActionProvider = ({ children }) => {
 		await axios
 			.patch(`${BASE_URL}/api/invoice/${id}/`, formData, header)
 			.then((res) => Alert.alert('Success', 'Invoice updated successfully'))
-			.catch((error) => {
-				for (const [key, value] of Object.entries(error.response.data)) {
-					Alert.alert('Error', String(value));
-				}
-			});
+			.catch((error) => handleError(error));
 		setCrudLoading(false);
 	};
 	// Working Area
@@ -120,10 +116,10 @@ export const ActionProvider = ({ children }) => {
 			.then((response) => {
 				setAreas(response.data);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => handleError(error));
 		setIsLoading(false);
 	};
-	const createArea = async (area, setArea, setShowModal) => {
+	const createArea = async (area, setArea, setShowAreaModal) => {
 		if (area === '') {
 			Alert.alert('Error', 'Area cannot be empty !!!');
 		} else {
@@ -134,15 +130,15 @@ export const ActionProvider = ({ children }) => {
 				.post(`${BASE_URL}/api/area/`, data, header)
 				.then((response) => {
 					Alert.alert('Success', 'Area added successfully');
-					setShowModal(false);
+					setShowAreaModal(false);
 					setArea('');
 					getAreas();
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => handleError(error));
 			setCrudLoading(false);
 		}
 	};
-	const updateArea = async (id, area, setArea, setShowModal) => {
+	const updateArea = async (id, area, setArea, setShowAreaModal) => {
 		if (area === '') {
 			Alert.alert('Error', 'Area cannot be empty !!!');
 		} else {
@@ -152,11 +148,11 @@ export const ActionProvider = ({ children }) => {
 				.patch(`${BASE_URL}/api/area/${id}/`, data, header)
 				.then((response) => {
 					Alert.alert('Success', 'Area updated successfully');
-					setShowModal(false);
+					setShowAreaModal(false);
 					setArea('');
 					getAreas();
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => handleError(error));
 			setCrudLoading(false);
 		}
 	};
@@ -172,12 +168,12 @@ export const ActionProvider = ({ children }) => {
 				onPress: async () => {
 					setCrudLoading(true);
 					await axios
-						.delete(`${BASE_URL}/api/area/${id}/`,header)
+						.delete(`${BASE_URL}/api/area/${id}/`, header)
 						.then((response) => {
 							Alert.alert('Success', 'Area deleted successfully');
 							getAreas();
 						})
-						.catch((error) => console.log(error));
+						.catch((error) => handleError(error));
 					setCrudLoading(false);
 				},
 			},
@@ -189,12 +185,16 @@ export const ActionProvider = ({ children }) => {
 			value={{
 				services,
 				invoices,
+				showAreaModal,
+				areaMode,
 				areas,
 				getService,
 				updateService,
 				getInvoices,
 				updateInvoice,
 				handlePaymentStatus,
+				setShowAreaModal,
+				setAreaMode,
 				setAreas,
 				getAreas,
 				createArea,

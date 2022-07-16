@@ -7,8 +7,10 @@ import {
 	Select,
 	CheckIcon,
 	TextArea,
+	Box,
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
+
 export const CustomInput = ({
 	type,
 	name,
@@ -159,5 +161,43 @@ export const CustomTextArea = ({
 				defaultValue=''
 			/>
 		</FormControl>
+	);
+};
+
+export const CustomSearchInput = ({ placeholder }) => {
+	return (
+		<Box
+			width='100%'
+			bg='lightBlue.50'
+			shadow={2}
+			borderRadius='5'
+			padding='3'
+			mb='5'>
+			<Input
+				placeholder={placeholder}
+				width='100%'
+				borderRadius='4'
+				size='md'
+				variant='underlined'
+				InputLeftElement={
+					<Icon
+						m='2'
+						mr='3'
+						size='6'
+						color='gray.400'
+						as={<Ionicons name='search-outline' />}
+					/>
+				}
+				InputRightElement={
+					<Icon
+						m='2'
+						ml='3'
+						size='6'
+						color='gray.400'
+						as={<Ionicons name='location-outline' />}
+					/>
+				}
+			/>
+		</Box>
 	);
 };

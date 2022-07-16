@@ -20,21 +20,32 @@ import { ActionContext } from '../../context/ActionContext';
 import { LoadingContext } from '../../context/LoadingContext';
 import { useIsFocused } from '@react-navigation/native';
 import { Loading, CrudLoading } from '../../components/loading';
+import { ListHeaderComponent } from '../../components/flatlist/ListHeaderComponent';
+import { BgShape1 } from '../../components/shape';
+import { ListEmptyComponent } from '../../components/flatlist/ListEmptyComponent';
 
 export const AreaScreen = ({ navigation }) => {
-	const { areas, setAreas, getAreas, createArea, updateArea, deleteArea } =
-		useContext(ActionContext);
+	const {
+		showAreaModal,
+		setShowAreaModal,
+		areaMode,
+		setAreaMode,
+		areas,
+		setAreas,
+		getAreas,
+		createArea,
+		updateArea,
+		deleteArea,
+	} = useContext(ActionContext);
 	const { isLoading, crudLoading, setIsLoading } = useContext(LoadingContext);
 	const [areaId, setAreaId] = useState(null);
 	const [area, setArea] = useState('');
 	const isFocused = useIsFocused();
-	const [mode, setMode] = useState('Create');
-	const [showModal, setShowModal] = useState(false);
 
 	const handleSave = () => {
-		mode == 'Create'
-			? createArea(area, setArea, setShowModal)
-			: updateArea(areaId, area, setArea, setShowModal);
+		areaMode == 'Create'
+			? createArea(area, setArea, setShowAreaModal)
+			: updateArea(areaId, area, setArea, setShowAreaModal);
 	};
 	useEffect(() => {
 		setIsLoading(true);
@@ -43,7 +54,7 @@ export const AreaScreen = ({ navigation }) => {
 		});
 		navigation.addListener('beforeRemove', (e) => {
 			setAreas([]);
-			setShowModal(false);
+			setShowAreaModal(false);
 		});
 	}, [isFocused]);
 
@@ -54,15 +65,16 @@ export const AreaScreen = ({ navigation }) => {
 			<Container h='100%' w='100%' maxWidth='100%'>
 				{/* <StatusBar animated={true} barStyle='light-content' /> */}
 				<Modal
-					isOpen={showModal}
+					isOpen={showAreaModal}
 					onClose={() => {
 						setArea('');
-						setShowModal(false);
+						setShowAreaModal(false);
 					}}
 					animationPreset='slide'>
 					<Modal.Content>
 						<Modal.CloseButton />
-						<Modal.Header borderBottomWidth={0}>{`${mode} Area`}</Modal.Header>
+						<Modal.Header
+							borderBottomWidth={0}>{`${areaMode} Area`}</Modal.Header>
 						<Modal.Body m='0' p='0' px='5'>
 							<Input
 								placeholder='Area Name'
@@ -87,7 +99,7 @@ export const AreaScreen = ({ navigation }) => {
 									colorScheme='blueGray'
 									onPress={() => {
 										setArea('');
-										setShowModal(false);
+										setShowAreaModal(false);
 									}}>
 									Cancel
 								</Button>
@@ -96,61 +108,9 @@ export const AreaScreen = ({ navigation }) => {
 						</Modal.Footer>
 					</Modal.Content>
 				</Modal>
+				<BgShape1 />
 				<FlatList
-					ListHeaderComponent={
-						<Box width='100%' p='5' pb='3'>
-							<HStack justifyContent='flex-end' alignItems='center' mb='5'>
-								<Button
-									colorScheme='darkBlue'
-									size='sm'
-									leftIcon={
-										<Icon size='sm' as={<Ionicons name='add-outline' />} />
-									}
-									onPress={() => {
-										setMode('Create');
-										setShowModal(true);
-									}}>
-									Add area
-								</Button>
-							</HStack>
-							<Box
-								width='100%'
-								bg='lightBlue.50'
-								shadow={3}
-								borderRadius='5'
-								padding='3'
-								mb='5'>
-								<Input
-									placeholder='Search People & Places'
-									width='100%'
-									borderRadius='4'
-									size='md'
-									variant='underlined'
-									InputLeftElement={
-										<Icon
-											m='2'
-											mr='3'
-											size='6'
-											color='gray.400'
-											as={<Ionicons name='search-outline' />}
-										/>
-									}
-									InputRightElement={
-										<Icon
-											m='2'
-											ml='3'
-											size='6'
-											color='gray.400'
-											as={<Ionicons name='location-outline' />}
-										/>
-									}
-								/>
-							</Box>
-							<Text fontSize='sm' color='#333' bold>
-								Total areas - {areas.length}
-							</Text>
-						</Box>
-					}
+					ListHeaderComponent={<ListHeaderComponent items={areas} />}
 					width='100%'
 					maxWidth='100%'
 					flex={1}
@@ -162,9 +122,9 @@ export const AreaScreen = ({ navigation }) => {
 							direction='row'
 							justify='flex-start'
 							align='center'
-							shadow='1'
+							shadow={2}
 							bg='muted.50'
-							mx='5'
+							mx='4'
 							mb='3'
 							py='2'
 							px='2'
@@ -185,10 +145,10 @@ export const AreaScreen = ({ navigation }) => {
 								p='2'
 								mr='1'
 								onPress={() => {
-									setMode('Update');
+									setAreaMode('Update');
 									setAreaId(item.id);
 									setArea(item.area_name);
-									setShowModal(true);
+									setShowAreaModal(true);
 								}}>
 								<Icon
 									size='sm'
@@ -210,17 +170,7 @@ export const AreaScreen = ({ navigation }) => {
 						</Flex>
 					)}
 					keyExtractor={(item) => item.id}
-					ListEmptyComponent={
-						<Center mt='5' key={'empty-container'}>
-							<Image
-								key={'empty-image'}
-								source={require('../../../assets/no_data.png')}
-								alt='Alternate Text'
-								size='xl'
-							/>
-							<Text key={'empty-text'}>No data !!!</Text>
-						</Center>
-					}
+					ListEmptyComponent={<ListEmptyComponent />}
 				/>
 			</Container>
 		</>

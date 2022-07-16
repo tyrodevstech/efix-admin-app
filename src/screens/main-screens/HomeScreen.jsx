@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
 	Button,
 	Container,
@@ -10,10 +10,14 @@ import {
 	VStack,
 	Text,
 	Avatar,
+	HStack,
+	Divider,
 } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { AuthContext } from '../../context/AuthContext';
 
 export const HomeScreen = ({ navigation }) => {
+	const { user } = useContext(AuthContext);
 	return (
 		<ScrollView h='100%' w='100%' bg='#1D4ED8'>
 			<Container h='100%' w='100%' maxWidth='100%'>
@@ -29,34 +33,35 @@ export const HomeScreen = ({ navigation }) => {
 					borderBottomLeftRadius={100}
 				/>
 				<Box width='100%' padding='5'>
-					<Heading size='lg' color='#fff' mb='5' mt='5'>
-						Welcome
+					<Heading fontSize={20} fontWeight='500' color='#fff' mb='5' mt='5'>
+						Welcome, {user?.first_name}
 					</Heading>
-					<Box
+					<HStack
 						mb='10'
+						justifyContent='space-evenly'
+						alignItems='center'
 						height={130}
-						flexDirection='row'
 						width='100%'
-						bg='lightBlue.50'
-						shadow={3}
+						bg='#1D4ED8'
+						shadow={2}
 						borderRadius='5'
 						padding='5'>
-						<Avatar
-							bg='pink.600'
-							size='lg'
-							mr='5'
-							source={{
-								uri: 'https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2876&q=80',
-							}}>
-							Profile Image
-						</Avatar>
-						<Box>
-							<Text fontSize='xl' bold>
-								Sanaullah Rabbi
-							</Text>
-							<Text>admin@gmail.com</Text>
-						</Box>
-					</Box>
+						<VStack space={3} alignItems='center'>
+							<Text color='#fff'>Monthly</Text>
+							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
+							<Heading size='md' color='#fff'>
+								৳ 500.50
+							</Heading>
+						</VStack>
+						<Divider bg='blue.400' height='50%' orientation='vertical' />
+						<VStack space={3} alignItems='center'>
+							<Text color='#fff'>Total</Text>
+							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
+							<Heading size='md' color='#fff'>
+								৳ 2000.00
+							</Heading>
+						</VStack>
+					</HStack>
 
 					<Box
 						width='100%'
@@ -64,8 +69,8 @@ export const HomeScreen = ({ navigation }) => {
 						padding='5'
 						bg='lightBlue.50'
 						borderRadius='5'
-						shadow={3}>
-						<Text fontSize='sm' color='#777' mb='3'>
+						shadow={2}>
+						<Text fontSize='sm' color='#555' mb='3' bold>
 							Accounts
 						</Text>
 						{/* <Divider /> */}
@@ -80,9 +85,10 @@ export const HomeScreen = ({ navigation }) => {
 								justifyContent='flex-start'
 								leftIcon={
 									<Icon
-										as={Ionicons}
-										name='information-circle-outline'
-										size='sm'
+										as={Feather}
+										name='users'
+										size='md'
+										color='#1D4ED8'
 										mr='5'
 									/>
 								}
@@ -99,7 +105,13 @@ export const HomeScreen = ({ navigation }) => {
 								_pressed={{ bg: 'blueGray.200' }}
 								justifyContent='flex-start'
 								leftIcon={
-									<Icon as={Ionicons} name='person-outline' size='sm' mr='5' />
+									<Icon
+										as={Feather}
+										name='briefcase'
+										size='md'
+										color='#1D4ED8'
+										mr='5'
+									/>
 								}
 								// style={{borderBottomWidth:1,borderBottomColor:'#e5e7ff'}}
 								onPress={() => navigation.navigate('CustomerNavigation')}>
@@ -114,14 +126,20 @@ export const HomeScreen = ({ navigation }) => {
 								_pressed={{ bg: 'blueGray.200' }}
 								justifyContent='flex-start'
 								leftIcon={
-									<Icon as={Ionicons} name='hammer-outline' size='sm' mr='5' />
+									<Icon
+										as={Ionicons}
+										name='hammer-outline'
+										size='md'
+										color='#1D4ED8'
+										mr='5'
+									/>
 								}
 								// style={{borderBottomWidth:1,borderBottomColor:'#e5e7ff'}}
 								onPress={() => navigation.navigate('TechnicianNavigation')}>
 								Technician Accounts
 							</Button>
 
-							<Text fontSize='sm' color='#333' mb='0' bold>
+							<Text fontSize='sm' color='#555' mb='0' bold>
 								Actions
 							</Text>
 							<Button
@@ -134,15 +152,16 @@ export const HomeScreen = ({ navigation }) => {
 								justifyContent='flex-start'
 								leftIcon={
 									<Icon
-										as={Ionicons}
-										name='settings-outline'
-										size='sm'
+										as={Feather}
+										name='settings'
+										size='md'
+										color='#1D4ED8'
 										mr='5'
 									/>
 								}
 								// style={{borderBottomWidth:1,borderBottomColor:'#e5e7ff'}}
 								onPress={() => navigation.navigate('ServiceNavigation')}>
-								Service List
+								Requested Service
 							</Button>
 							<Button
 								bg='lightBlue.50'
@@ -154,9 +173,10 @@ export const HomeScreen = ({ navigation }) => {
 								justifyContent='flex-start'
 								leftIcon={
 									<Icon
-										as={Ionicons}
-										name='location-outline'
-										size='sm'
+										as={Feather}
+										name='navigation'
+										size='md'
+										color='#1D4ED8'
 										mr='5'
 									/>
 								}
@@ -174,15 +194,16 @@ export const HomeScreen = ({ navigation }) => {
 								justifyContent='flex-start'
 								leftIcon={
 									<Icon
-										as={Ionicons}
-										name='document-text-outline'
-										size='sm'
+										as={Feather}
+										name='file-text'
+										size='md'
+										color='#1D4ED8'
 										mr='5'
 									/>
 								}
 								// style={{borderBottomWidth:1,borderBottomColor:'#e5e7ff'}}
 								onPress={() => navigation.navigate('InvoiceNavigation')}>
-								Invoice List
+								All Invoice
 							</Button>
 						</VStack>
 					</Box>

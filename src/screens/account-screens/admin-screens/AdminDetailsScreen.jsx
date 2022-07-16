@@ -2,7 +2,15 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert } from 'react-native';
 import axios from 'axios';
-import { Container, Box, ScrollView, Button, Heading } from 'native-base';
+import {
+	Container,
+	Box,
+	ScrollView,
+	Button,
+	Heading,
+	VStack,
+	HStack,
+} from 'native-base';
 import { CustomInput } from '../../../components/forms';
 import { BASE_URL, EMAIL_REGEX } from '../../../global';
 import { AdminContext } from '../../../context/AdminContext';
@@ -31,9 +39,9 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 	if (crudLoading) return <CrudLoading />;
 
 	return (
-		<ScrollView h='100%' w='100%' bg='#fff'>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				<Box width='100%' padding='5'>
+		<ScrollView w='100%'  h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack h='100%' flex={1} w='100%' maxWidth='100%' justifyContent='space-between' bg='#fff'>
+				<VStack width='100%' padding='4'>
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {admin?.first_name}
 					</Heading>
@@ -95,7 +103,12 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
-					<Button colorScheme='info' mt='3' onPress={handleSubmit(data=>updateAdmin(admin.id,data))}>
+				</VStack>
+				<HStack p='4'  justifyContent='space-between'>
+					<Button
+						colorScheme='info'
+						mt='3'
+						onPress={handleSubmit((data) => updateAdmin(admin.id, data))}>
 						Update Account
 					</Button>
 					<Button
@@ -104,8 +117,8 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 						onPress={() => deleteAdmin(admin.id, navigation)}>
 						Delete Account
 					</Button>
-				</Box>
-			</Container>
+				</HStack>
+			</VStack>
 		</ScrollView>
 	);
 };

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import {
 	Button,
 	Container,
-	Heading,
 	Icon,
 	Box,
 	StatusBar,
@@ -10,6 +9,7 @@ import {
 	VStack,
 	Text,
 	Avatar,
+	Image,
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
@@ -21,16 +21,13 @@ export const ProfileScreen = ({ navigation }) => {
 			<Container h='100%' w='100%' maxWidth='100%'>
 				{/* <StatusBar animated={true} barStyle='light-content' /> */}
 				<Box width='100%' padding='5'>
-					{/* <Heading size='lg' color='#333' mb='5'>
-						Profile
-					</Heading> */}
 					<Box
 						mb='10'
 						// height={120}
 						flexDirection='row'
 						width='100%'
 						bg='lightBlue.50'
-						shadow={3}
+						shadow={2}
 						borderRadius='5'
 						padding='5'>
 						<Avatar
@@ -56,7 +53,7 @@ export const ProfileScreen = ({ navigation }) => {
 						padding='5'
 						bg='lightBlue.50'
 						borderRadius='5'
-						shadow={3}>
+						shadow={2}>
 						<Text fontSize='sm' color='#333' mb='3' bold>
 							Actions
 						</Text>
@@ -82,10 +79,10 @@ export const ProfileScreen = ({ navigation }) => {
 									navigation.navigate('HomeNav', {
 										screen: 'AdminNavigation',
 										params: {
-										  screen: 'AdminDetails',
-										  params:{admin:user}
+											screen: 'AdminDetails',
+											params: { admin: user },
 										},
-									  });
+									});
 								}}>
 								Update Information
 							</Button>
@@ -101,19 +98,6 @@ export const ProfileScreen = ({ navigation }) => {
 									<Icon as={Ionicons} name='key-outline' size='sm' mr='5' />
 								}>
 								Change Password
-							</Button>
-							<Button
-								bg='lightBlue.50'
-								_text={{
-									color: '#1F2937',
-								}}
-								_icon={{ color: '#333' }}
-								_pressed={{ bg: 'blueGray.200' }}
-								justifyContent='flex-start'
-								leftIcon={
-									<Icon as={Ionicons} name='cog-outline' size='sm' mr='5' />
-								}>
-								Settings
 							</Button>
 							<Button
 								bg='lightBlue.50'
@@ -143,6 +127,14 @@ export const ProfileScreen = ({ navigation }) => {
 								Log out
 							</Button>
 						</VStack>
+						<Image
+							mt='10'
+							size='xl'
+							resizeMode='contain'
+							w='100%'
+							source={require('../../../assets/profile_1.png')}
+							alt='profile_bg'
+						/>
 					</Box>
 				</Box>
 			</Container>

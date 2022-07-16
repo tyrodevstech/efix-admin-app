@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BASE_URL } from '../global';
 import { LoadingContext } from './LoadingContext';
 import { AuthContext } from './AuthContext';
+import { handleError } from '../utils';
 
 export const AdminContext = createContext();
 
@@ -11,7 +12,7 @@ export const AdminProvider = ({ children }) => {
 	const [admins, setAdmins] = useState([]);
 	const { authToken } = useContext(AuthContext);
 	const { setIsLoading, setCrudLoading } = useContext(LoadingContext);
-	
+
 	const header = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ export const AdminProvider = ({ children }) => {
 			.then((response) => {
 				setAdmins(response.data);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => handleError(error));
 		setIsLoading(false);
 	};
 
@@ -36,11 +37,7 @@ export const AdminProvider = ({ children }) => {
 		await axios
 			.post(`${BASE_URL}/api/admin/`, authData, header)
 			.then((res) => Alert.alert('Success', 'Account created successfully'))
-			.catch((error) => {
-				for (const [key, value] of Object.entries(error.response.data)) {
-					Alert.alert('Error', String(value));
-				}
-			});
+			.catch((error) => handleError(error));
 		setCrudLoading(false);
 	};
 
@@ -49,11 +46,7 @@ export const AdminProvider = ({ children }) => {
 		await axios
 			.patch(`${BASE_URL}/api/admin/${id}/`, data, header)
 			.then((res) => Alert.alert('Success', 'Account updated successfully'))
-			.catch((error) => {
-				for (const [key, value] of Object.entries(error.response.data)) {
-					Alert.alert('Error', String(value));
-				}
-			});
+			.catch((error) => handleError(error));
 		setCrudLoading(false);
 	};
 
@@ -68,11 +61,11 @@ export const AdminProvider = ({ children }) => {
 				onPress: async () => {
 					await axios
 						.delete(`${BASE_URL}/api/admin/${id}/`, header)
-						.then((response) =>
-							Alert.alert('Success', 'Account deleted successfully'),
-						)
-						.catch((error) => console.log(error));
-					navigation.goBack();
+						.then((response) => {
+							Alert.alert('Success', 'Account deleted successfully');
+							navigation.goBack();
+						})
+						.catch((error) => handleError(error));
 				},
 			},
 		]);

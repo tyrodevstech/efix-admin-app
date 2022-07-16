@@ -1,5 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import { Container, Box, ScrollView, Button, Heading } from 'native-base';
+import {
+	Container,
+	Box,
+	ScrollView,
+	Button,
+	Heading,
+	VStack,
+	HStack,
+} from 'native-base';
 import { CustomInput, CustomSelect } from '../../../components/forms';
 import { EMAIL_REGEX } from '../../../global';
 import { useForm } from 'react-hook-form';
@@ -38,9 +46,15 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 	if (crudLoading) return <CrudLoading />;
 
 	return (
-		<ScrollView h='100%' w='100%' bg='blue.50'>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				<Box width='100%' padding='5'>
+		<ScrollView w='100%' h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack
+				h='100%'
+				flex={1}
+				w='100%'
+				maxWidth='100%'
+				justifyContent='space-between'
+				bg='#fff'>
+				<VStack width='100%' padding='5'>
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {account?.name}
 					</Heading>
@@ -186,6 +200,8 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
+				</VStack>
+				<HStack p='4' justifyContent='space-between'>
 					<Button
 						colorScheme='info'
 						mt='3'
@@ -198,8 +214,8 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 						onPress={() => deleteAccount(account.id, navigation)}>
 						Delete Account
 					</Button>
-				</Box>
-			</Container>
+				</HStack>
+			</VStack>
 		</ScrollView>
 	);
 };

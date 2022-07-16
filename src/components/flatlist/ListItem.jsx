@@ -22,7 +22,7 @@ export const AccountItem = ({
 	const navigation = useNavigation();
 	const { id, name, phone, email, active } = account;
 	return (
-		<Box shadow='2' bg='lightBlue.50' p='3' mb='3' mx='5' rounded='8'>
+		<Box shadow={2} bg='lightBlue.50' p='3' mb='3' mx='4' rounded='10'>
 			<HStack alignItems='center'>
 				<Badge
 					colorScheme={active == true ? 'success' : 'danger'}
@@ -95,7 +95,7 @@ export const ServiceItem = ({ service, navigateTo, role }) => {
 	const navigation = useNavigation();
 	const { id, servicereq_no, title, status, priority, created_at } = service;
 	return (
-		<Box shadow='2' bg='lightBlue.50' p='3' mb='3' mx='5' rounded='8'>
+		<Box shadow={2} bg='lightBlue.50' p='3' mb='3' mx='4' rounded='10'>
 			<HStack alignItems='center'>
 				<Badge
 					colorScheme={'info'}
@@ -186,7 +186,7 @@ export const InvoiceItem = ({ invoice, navigateTo, handlePaymentStatus }) => {
 	const { id, service, tech_charge, equip_charge, status, created_at } =
 		invoice;
 	return (
-		<Box shadow='2' bg='lightBlue.50' p='3' mb='3' mx='5' rounded='8'>
+		<Box shadow={2} bg='lightBlue.50' p='3' mb='3' mx='4' rounded='10'>
 			<HStack alignItems='center'>
 				<Badge
 					colorScheme={'info'}
@@ -265,7 +265,7 @@ export const InvoiceItem = ({ invoice, navigateTo, handlePaymentStatus }) => {
 export const AdminItem = ({ admin, navigation }) => {
 	const { id, first_name, last_name, username, email } = admin;
 	return (
-		<Box shadow='2' bg='lightBlue.50' rounded='8' p='3' mb='3' mx='5'>
+		<Box shadow={2} bg='lightBlue.50' rounded='10' p='3' mb='3' mx='4'>
 			<HStack alignItems='center'>
 				<Badge
 					colorScheme='info'

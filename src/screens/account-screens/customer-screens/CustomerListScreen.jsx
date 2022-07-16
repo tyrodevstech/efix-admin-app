@@ -1,22 +1,14 @@
 import React, { useContext, useEffect } from 'react';
-import {
-	Container,
-	Heading,
-	Icon,
-	Box,
-	Text,
-	Image,
-	Center,
-	Input,
-	FlatList,
-} from 'native-base';
+import { Container, Text, Image, Center, FlatList } from 'native-base';
 
 import { AccountItem } from '../../../components/flatlist/ListItem';
-import { Ionicons } from '@expo/vector-icons';
 import { AccountContext } from '../../../context/AccountContext';
 import { LoadingContext } from '../../../context/LoadingContext';
 import { useIsFocused } from '@react-navigation/native';
 import { CrudLoading, Loading } from '../../../components/loading';
+import { BgShape1 } from '../../../components/shape';
+import { ListHeaderComponent } from '../../../components/flatlist/ListHeaderComponent';
+import { ListEmptyComponent } from '../../../components/flatlist/ListEmptyComponent';
 
 export const CustomerListScreen = ({ navigation }) => {
 	const { accounts, setAccounts, handleActivation, getAccounts } =
@@ -41,47 +33,9 @@ export const CustomerListScreen = ({ navigation }) => {
 		<>
 			<Container h='100%' w='100%' maxWidth='100%'>
 				{/* <StatusBar animated={true} barStyle='light-content' /> */}
+				<BgShape1 />
 				<FlatList
-					ListHeaderComponent={
-						<Box width='100%' p='5' pb='3'>
-							<Box
-								width='100%'
-								bg='lightBlue.50'
-								shadow={3}
-								borderRadius='5'
-								padding='3'
-								mb='5'>
-								<Input
-									placeholder='Search People & Places'
-									width='100%'
-									borderRadius='4'
-									size='md'
-									variant='underlined'
-									InputLeftElement={
-										<Icon
-											m='2'
-											mr='3'
-											size='6'
-											color='gray.400'
-											as={<Ionicons name='search-outline' />}
-										/>
-									}
-									InputRightElement={
-										<Icon
-											m='2'
-											ml='3'
-											size='6'
-											color='gray.400'
-											as={<Ionicons name='location-outline' />}
-										/>
-									}
-								/>
-							</Box>
-							<Text fontSize='sm' color='#333' bold>
-								Total accounts - {accounts.length}
-							</Text>
-						</Box>
-					}
+					ListHeaderComponent={<ListHeaderComponent items={accounts} />}
 					width='100%'
 					maxWidth='100%'
 					flex={1}
@@ -96,17 +50,7 @@ export const CustomerListScreen = ({ navigation }) => {
 						/>
 					)}
 					keyExtractor={(item) => item.id}
-					ListEmptyComponent={
-						<Center mt='5' key={'empty-container'}>
-							<Image
-								key={'empty-image'}
-								source={require('../../../../assets/no_data.png')}
-								alt='Alternate Text'
-								size='xl'
-							/>
-							<Text key={'empty-text'}>No data !!!</Text>
-						</Center>
-					}
+					ListEmptyComponent={<ListEmptyComponent />}
 				/>
 			</Container>
 		</>
