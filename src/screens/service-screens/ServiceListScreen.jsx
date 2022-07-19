@@ -1,62 +1,56 @@
-import React, { useContext, useEffect } from 'react';
-import {
-	Container,
-	Heading,
-	Icon,
-	Box,
-	Text,
-	Image,
-	Center,
-	Input,
-	FlatList,
-} from 'native-base';
-
+import React, { useContext, useCallback, useState, useEffect } from 'react';
+import { Container, FlatList } from 'native-base';
+import { useFocusEffect } from '@react-navigation/native';
 import { ServiceItem } from '../../components/flatlist/ListItem';
-import { Ionicons } from '@expo/vector-icons';
-import { LoadingContext } from '../../context/LoadingContext';
-import { useIsFocused } from '@react-navigation/native';
 import { Loading } from '../../components/loading';
 import { ActionContext } from '../../context/ActionContext';
 import { BgShape1 } from '../../components/shape';
 import { ListHeaderComponent } from '../../components/flatlist/ListHeaderComponent';
 import { ListEmptyComponent } from '../../components/flatlist/ListEmptyComponent';
+import debounce from 'lodash.debounce';
 
 export const ServiceListScreen = ({ navigation }) => {
-	const { services, getService } = useContext(ActionContext);
-	const { isLoading, setIsLoading } = useContext(LoadingContext);
-	const isFocused = useIsFocused();
+	const { services, setService, getService } = useContext(ActionContext);
+	const [pageLoading, setPageLoading] = useState(true);
+	const [search, setSearch] = useState('');
 
-	useEffect(() => {
-		setIsLoading(true);
-		navigation.addListener('focus', (e) => {
-			getService();
-		});
-		navigation.addListener('beforeRemove', (e) => {
-			getService([]);
-		});
-	}, [isFocused]);
+	useFocusEffect(
+		useCallback(() => {
+			getService({ search: search, setPageLoading: setPageLoading });
+			navigation.addListener('blur', (e) => {
+				setPageLoading(true);
+				setSearch('');
+				setService([]);
+			});
+		}, [search]),
+	);
 
-	if (isLoading) return <Loading />;
+	if (pageLoading) return <Loading />;
 
 	return (
-		<>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				{/* <StatusBar animated={true} barStyle='light-content' /> */}
-				<BgShape1 />
-				<FlatList
-					ListHeaderComponent={<ListHeaderComponent items={services} />}
-					width='100%'
-					maxWidth='100%'
-					flex={1}
-					height='100%'
-					data={services}
-					renderItem={({ item }) => (
-						<ServiceItem service={item} navigateTo='ServiceDetails' />
-					)}
-					keyExtractor={(item) => item.id}
-					ListEmptyComponent={<ListEmptyComponent />}
-				/>
-			</Container>
-		</>
+		<Container h='100%' w='100%' maxWidth='100%'>
+			<BgShape1 />
+			<FlatList
+				ListHeaderComponent={
+					<ListHeaderComponent
+						items={services}
+						handleSearch={{
+							search: search,
+							setSearch: setSearch,
+						}}
+					/>
+				}
+				width='100%'
+				maxWidth='100%'
+				flex={1}
+				height='100%'
+				data={services}
+				renderItem={({ item }) => (
+					<ServiceItem service={item} navigateTo='ServiceDetails' />
+				)}
+				keyExtractor={(item) => item.id}
+				ListEmptyComponent={<ListEmptyComponent />}
+			/>
+		</Container>
 	);
 };

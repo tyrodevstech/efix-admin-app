@@ -34,6 +34,7 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 			'phone': account.phone,
 			'other_phone': account.other_phone,
 			'role': account.role,
+			'work_area':account.work_area,
 			'registration_type': account.registration_type,
 			'nid': account.nid,
 		},
@@ -54,7 +55,7 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 				maxWidth='100%'
 				justifyContent='space-between'
 				bg='#fff'>
-				<VStack width='100%' padding='5'>
+				<VStack width='100%' padding='4'>
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {account?.name}
 					</Heading>
@@ -137,7 +138,7 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 						errors={errors}
 					/>
 					<CustomSelect
-						name='area'
+						name='work_area'
 						label='Area'
 						placeholder='Area'
 						control={control}
@@ -201,16 +202,18 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 						errors={errors}
 					/>
 				</VStack>
-				<HStack p='4' justifyContent='space-between'>
+				<HStack p='4' justifyContent='space-between' space={2}>
 					<Button
 						colorScheme='info'
 						mt='3'
+						flex={1}
 						onPress={handleSubmit((data) => updateAccount(data, account.id))}>
 						Update Account
 					</Button>
 					<Button
 						colorScheme='red'
 						mt='3'
+						flex={1}
 						onPress={() => deleteAccount(account.id, navigation)}>
 						Delete Account
 					</Button>

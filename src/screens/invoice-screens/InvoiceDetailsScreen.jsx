@@ -1,8 +1,6 @@
-import React, { useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
 import {
 	Text,
-	Container,
 	Box,
 	ScrollView,
 	Button,
@@ -13,22 +11,21 @@ import {
 	Link,
 	Badge,
 } from 'native-base';
-
+import { Ionicons } from '@expo/vector-icons';
+import { useForm } from 'react-hook-form';
 import {
 	CustomInput,
 	CustomSelect,
 	CustomTextArea,
 } from '../../components/forms';
-import { useForm } from 'react-hook-form';
-import { Alert } from 'react-native';
 import { LoadingContext } from '../../context/LoadingContext';
-import { CrudLoading, Loading } from '../../components/loading';
+import { CrudLoading } from '../../components/loading';
 import { ActionContext } from '../../context/ActionContext';
-import { Ionicons } from '@expo/vector-icons';
+import { BASE_URL } from '../../global';
 
 export const InvoiceDetailsScreen = ({ route, navigation }) => {
 	const { updateInvoice } = useContext(ActionContext);
-	const { isLoading, crudLoading, setIsLoading, setCrudLoading } =
+	const { crudLoading} =
 		useContext(LoadingContext);
 	const { invoice } = route.params;
 
@@ -52,11 +49,19 @@ export const InvoiceDetailsScreen = ({ route, navigation }) => {
 			'Content-Type': 'application/json',
 		},
 	};
+
 	if (crudLoading) return <CrudLoading />;
+
 	return (
-		<ScrollView h='100%' w='100%' bg='blue.50'>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				<Box width='100%' padding='5'>
+		<ScrollView w='100%' h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack
+				h='100%'
+				flex={1}
+				w='100%'
+				maxWidth='100%'
+				justifyContent='space-between'
+				bg='#fff'>
+				<VStack width='100%' padding='4'>
 					<Heading size='md' color='#333' mb='5'>
 						Invoice Details of - {invoice?.service?.servicereq_no}
 					</Heading>
@@ -183,25 +188,37 @@ export const InvoiceDetailsScreen = ({ route, navigation }) => {
 							<Text>No Attached file</Text>
 						)}
 					</Box>
-					<HStack space={2}>
-						<Button
-							colorScheme='lightBlue'
-							mt='3'
-							onPress={handleSubmit((data) => updateInvoice(data, invoice.id))}>
-							Update Invoice
-						</Button>
-						<Button
-							isDisabled
-							colorScheme='red'
-							mt='3'
-							variant='outline'
-							style={{ borderColor: 'red' }}
-							onPress={() => deleteAccount(invoice.id, navigation)}>
-							Delete Invoice
-						</Button>
-					</HStack>
-				</Box>
-			</Container>
+				</VStack>
+				<HStack px='4' justifyContent='space-between' space={2}>
+					<Button
+						colorScheme='lightBlue'
+						mt='3'
+						flex={1}
+						onPress={handleSubmit((data) => updateInvoice(data, invoice.id))}>
+						Update Invoice
+					</Button>
+					<Button
+						// isDisabled
+						colorScheme='red'
+						mt='3'
+						flex={1}
+						onPress={() => deleteAccount(invoice.id, navigation)}>
+						Delete Invoice
+					</Button>
+				</HStack>
+				<VStack p='4' alignItems='center'>
+					<Link
+						href={`${BASE_URL}/api/download-invoice/${invoice.id}`}
+						rounded={3}
+						bg='gray.200'
+						width='60%'
+						py='2.5'
+						px='4'
+						justifyContent='center'>
+						<Text>Download Invoice</Text>
+					</Link>
+				</VStack>
+			</VStack>
 		</ScrollView>
 	);
 };

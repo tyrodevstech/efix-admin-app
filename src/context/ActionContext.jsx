@@ -12,7 +12,7 @@ export const ActionProvider = ({ children }) => {
 	const [areas, setAreas] = useState([]);
 	const [services, setService] = useState([]);
 	const [invoices, setInvoices] = useState([]);
-	const { setIsLoading, setCrudLoading } = useContext(LoadingContext);
+	const { setCrudLoading } = useContext(LoadingContext);
 	const { authToken } = useContext(AuthContext);
 	const [showAreaModal, setShowAreaModal] = useState(false);
 	const [areaMode, setAreaMode] = useState('Create');
@@ -25,37 +25,38 @@ export const ActionProvider = ({ children }) => {
 	};
 
 	// Requested Service
-	const getService = async () => {
-		setIsLoading(true);
+	const getService = async ({ search, setPageLoading }) => {
 		await axios
-			.get(`${BASE_URL}/api/service_request/`, header)
+			.get(
+				`${BASE_URL}/api/service_request?search=${search ? search : ''}`,
+				header,
+			)
 			.then((response) => {
 				setService(response.data);
 			})
 			.catch((error) => handleError(error));
-		setIsLoading(false);
+		if (setPageLoading) setPageLoading(false);
 	};
 	const updateService = async (data, id) => {
-		setIsLoading(true);
+		setCrudLoading(true);
 		await axios
-			.patch(`${BASE_URL}/api/service_request/${id}`, data, header)
+			.patch(`${BASE_URL}/api/service_request/${id}/`, data, header)
 			.then((response) =>
 				Alert.alert('Success', 'Service updated successfully'),
 			)
 			.catch((error) => handleError(error));
-		setIsLoading(false);
+		setCrudLoading(false);
 	};
 
 	// Invoice
-	const getInvoices = async () => {
-		setIsLoading(true);
+	const getInvoices = async ({ search, setPageLoading }) => {
 		await axios
-			.get(`${BASE_URL}/api/invoice/`, header)
+			.get(`${BASE_URL}/api/invoice?search=${search ? search : ''}`, header)
 			.then((response) => {
 				setInvoices(response.data);
 			})
 			.catch((error) => handleError(error));
-		setIsLoading(false);
+		if (setPageLoading) setPageLoading(false);
 	};
 	const handlePaymentStatus = (id, status) => {
 		Alert.alert(
@@ -109,15 +110,14 @@ export const ActionProvider = ({ children }) => {
 		setCrudLoading(false);
 	};
 	// Working Area
-	const getAreas = async () => {
-		setIsLoading(true);
+	const getAreas = async ({ search, setPageLoading }) => {
 		await axios
-			.get(`${BASE_URL}/api/area/`, header)
+			.get(`${BASE_URL}/api/area?search=${search ? search : ''}`, header)
 			.then((response) => {
 				setAreas(response.data);
 			})
 			.catch((error) => handleError(error));
-		setIsLoading(false);
+		if (setPageLoading) setPageLoading(false);
 	};
 	const createArea = async (area, setArea, setShowAreaModal) => {
 		if (area === '') {
@@ -188,8 +188,10 @@ export const ActionProvider = ({ children }) => {
 				showAreaModal,
 				areaMode,
 				areas,
+				setService,
 				getService,
 				updateService,
+				setInvoices,
 				getInvoices,
 				updateInvoice,
 				handlePaymentStatus,

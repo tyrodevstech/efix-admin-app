@@ -1,30 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
 	Button,
 	Container,
-	Heading,
 	Icon,
-	Box,
 	Text,
-	Image,
-	Center,
 	Input,
 	Flex,
 	FlatList,
-	HStack,
 	Modal,
 } from 'native-base';
 
 import { Ionicons } from '@expo/vector-icons';
 import { ActionContext } from '../../context/ActionContext';
 import { LoadingContext } from '../../context/LoadingContext';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Loading, CrudLoading } from '../../components/loading';
 import { ListHeaderComponent } from '../../components/flatlist/ListHeaderComponent';
 import { BgShape1 } from '../../components/shape';
 import { ListEmptyComponent } from '../../components/flatlist/ListEmptyComponent';
 
 export const AreaScreen = ({ navigation }) => {
+	const [pageLoading, setPageLoading] = useState(true);
 	const {
 		showAreaModal,
 		setShowAreaModal,
@@ -37,29 +33,31 @@ export const AreaScreen = ({ navigation }) => {
 		updateArea,
 		deleteArea,
 	} = useContext(ActionContext);
-	const { isLoading, crudLoading, setIsLoading } = useContext(LoadingContext);
+	const { crudLoading } = useContext(LoadingContext);
 	const [areaId, setAreaId] = useState(null);
 	const [area, setArea] = useState('');
-	const isFocused = useIsFocused();
+	const [search, setSearch] = useState('');
 
 	const handleSave = () => {
 		areaMode == 'Create'
 			? createArea(area, setArea, setShowAreaModal)
 			: updateArea(areaId, area, setArea, setShowAreaModal);
 	};
-	useEffect(() => {
-		setIsLoading(true);
-		navigation.addListener('focus', (e) => {
-			getAreas();
-		});
-		navigation.addListener('beforeRemove', (e) => {
-			setAreas([]);
-			setShowAreaModal(false);
-		});
-	}, [isFocused]);
 
-	if (isLoading) return <Loading />;
+	useFocusEffect(
+		useCallback(() => {
+			getAreas({ search: search, setPageLoading: setPageLoading });
+			navigation.addListener('blur', (e) => {
+				setPageLoading(true);
+				setAreas([]);
+				setShowAreaModal(false);
+			});
+		}, [search]),
+	);
+
+	if (pageLoading) return <Loading />;
 	else if (crudLoading) return <CrudLoading />;
+
 	return (
 		<>
 			<Container h='100%' w='100%' maxWidth='100%'>
@@ -110,7 +108,15 @@ export const AreaScreen = ({ navigation }) => {
 				</Modal>
 				<BgShape1 />
 				<FlatList
-					ListHeaderComponent={<ListHeaderComponent items={areas} />}
+					ListHeaderComponent={
+						<ListHeaderComponent
+							items={areas}
+							handleSearch={{
+								search: search,
+								setSearch: setSearch,
+							}}
+						/>
+					}
 					width='100%'
 					maxWidth='100%'
 					flex={1}

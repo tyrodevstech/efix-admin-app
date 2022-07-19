@@ -104,16 +104,18 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 						errors={errors}
 					/>
 				</VStack>
-				<HStack p='4'  justifyContent='space-between'>
+				<HStack p='4'  justifyContent='space-between' space={2}>
 					<Button
 						colorScheme='info'
 						mt='3'
+						flex={1}
 						onPress={handleSubmit((data) => updateAdmin(admin.id, data))}>
 						Update Account
 					</Button>
 					<Button
 						colorScheme='red'
 						mt='3'
+						flex={1}
 						onPress={() => deleteAdmin(admin.id, navigation)}>
 						Delete Account
 					</Button>

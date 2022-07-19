@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Container, Box, ScrollView, Button, Heading, Icon } from 'native-base';
+import React, { useContext } from 'react';
+import { ScrollView, Button, Heading, Icon, VStack, HStack } from 'native-base';
 import { useForm } from 'react-hook-form';
 import {
 	CustomInput,
@@ -8,7 +8,7 @@ import {
 } from '../../components/forms';
 import { ActionContext } from '../../context/ActionContext';
 import { LoadingContext } from '../../context/LoadingContext';
-import { Loading } from '../../components/loading';
+import { CrudLoading } from '../../components/loading';
 import { Ionicons } from '@expo/vector-icons';
 
 export const ServiceDetailsScreen = ({ route, navigation }) => {
@@ -24,7 +24,9 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 		defaultValues: {
 			'servicereq_no': service.servicereq_no,
 			'created_by': service.customer.name,
-			'assigned_to': service?.technician.name,
+			'assigned_to': service?.technician
+				? service?.technician.name
+				: 'Not assigned yet',
 			'title': service.title,
 			'priority': service.priority,
 			'details': service.details,
@@ -34,12 +36,18 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 		},
 	});
 
-	if (crudLoading) return <Loading />;
+	if (crudLoading) return <CrudLoading />;
 
 	return (
-		<ScrollView h='100%' w='100%' bg='blue.50'>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				<Box width='100%' padding='5'>
+		<ScrollView w='100%' h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack
+				h='100%'
+				flex={1}
+				w='100%'
+				maxWidth='100%'
+				justifyContent='space-between'
+				bg='#fff'>
+				<VStack width='100%' padding='4'>
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {service?.servicereq_no}
 					</Heading>
@@ -110,23 +118,27 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 						InputRightElement={
-							<Button
-								onPress={() =>
-									navigation.navigate('TechnicianNavigation', {
-										screen: 'TechnicianDetails',
-										params: { account: service?.technician },
-									})
-								}
-								variant='solid'
-								p='2'
-								colorScheme={'blueGray'}
-								size='xs'
-								mr='1.5'
-								rightIcon={
-									<Icon as={Ionicons} name='navigate-outline' size='xs' />
-								}>
-								Details
-							</Button>
+							service?.technician ? (
+								<Button
+									onPress={() =>
+										navigation.navigate('TechnicianNavigation', {
+											screen: 'TechnicianDetails',
+											params: { account: service?.technician },
+										})
+									}
+									variant='solid'
+									p='2'
+									colorScheme={'blueGray'}
+									size='xs'
+									mr='1.5'
+									rightIcon={
+										<Icon as={Ionicons} name='navigate-outline' size='xs' />
+									}>
+									Details
+								</Button>
+							) : (
+								<></>
+							)
 						}
 					/>
 					<CustomInput
@@ -135,7 +147,6 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						label='Title'
 						placeholder='Title'
 						control={control}
-						isReadOnly={true}
 						rules={{
 							required: 'Field is required',
 							minLength: {
@@ -151,7 +162,6 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						placeholder='Details'
 						control={control}
 						isRequired={false}
-						isReadOnly={true}
 						rules={{
 							minLength: {
 								value: 3,
@@ -167,7 +177,6 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						placeholder='Priority'
 						control={control}
 						isRequired={false}
-						isDisabled={true}
 						selectItems={[
 							{ label: 'High', value: 'High' },
 							{ label: 'Medium', value: 'Medium' },
@@ -187,7 +196,6 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						placeholder='Status'
 						control={control}
 						isRequired={false}
-						isDisabled={true}
 						selectItems={[
 							{ label: 'New', value: 'new' },
 							{ label: 'In Progress', value: 'in_progress' },
@@ -204,18 +212,24 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
-
-					<Button colorScheme='info' mt='3' onPress={handleSubmit(data=>updateService(data,service.id))}>
-						Update Account
+				</VStack>
+				<HStack p='4' justifyContent='space-between' space={2}>
+					<Button
+						colorScheme='info'
+						mt='3'
+						flex={1}
+						onPress={handleSubmit((data) => updateService(data, service.id))}>
+						Update Service
 					</Button>
 					<Button
 						colorScheme='red'
 						mt='3'
+						flex={1}
 						onPress={() => deleteAccount(account.id, navigation)}>
-						Delete Account
+						Delete Service
 					</Button>
-				</Box>
-			</Container>
+				</HStack>
+			</VStack>
 		</ScrollView>
 	);
 };

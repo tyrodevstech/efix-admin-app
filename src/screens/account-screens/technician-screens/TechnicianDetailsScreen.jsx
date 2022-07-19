@@ -1,5 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import { Container, Box, ScrollView, Button, Heading } from 'native-base';
+import {
+	Container,
+	Box,
+	ScrollView,
+	Button,
+	Heading,
+	VStack,
+	HStack,
+} from 'native-base';
 import { CustomInput, CustomSelect } from '../../../components/forms';
 import { EMAIL_REGEX } from '../../../global';
 import { useForm } from 'react-hook-form';
@@ -10,7 +18,7 @@ import { AccountContext } from '../../../context/AccountContext';
 import { ActionContext } from '../../../context/ActionContext';
 
 export const TechnicianDetailsScreen = ({ route, navigation }) => {
-	const { updateAccount,deleteAccount } = useContext(AccountContext);
+	const { updateAccount, deleteAccount } = useContext(AccountContext);
 	const { crudLoading } = useContext(LoadingContext);
 	const { areas, getAreas } = useContext(ActionContext);
 
@@ -26,6 +34,7 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 			'phone': account.phone,
 			'other_phone': account.other_phone,
 			'role': account.role,
+			'work_area':account.work_area,
 			'registration_type': account.registration_type,
 			'nid': account.nid,
 		},
@@ -38,9 +47,15 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 	if (crudLoading) return <CrudLoading />;
 
 	return (
-		<ScrollView h='100%' w='100%' bg='blue.50'>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				<Box width='100%' padding='5'>
+		<ScrollView w='100%' h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack
+				h='100%'
+				flex={1}
+				w='100%'
+				maxWidth='100%'
+				justifyContent='space-between'
+				bg='#fff'>
+				<VStack width='100%' padding='4'>
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {account?.name}
 					</Heading>
@@ -128,16 +143,11 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 						errors={errors}
 					/>
 					<CustomSelect
-						name='area'
+						name='work_area'
 						label='Area'
 						placeholder='Area'
 						control={control}
 						isRequired={false}
-						selecItems={{
-							Residential: 'Residential',
-							Commercial: 'Commercial',
-							Other: 'Other',
-						}}
 						selectItems={areas.map((item) => {
 							return { label: item.area_name, value: item.id };
 						})}
@@ -196,17 +206,24 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
-					<Button colorScheme='info' mt='3' onPress={handleSubmit(data=>updateAccount(data,account.id))}>
+				</VStack>
+				<HStack p='4' justifyContent='space-between' space={2}>
+					<Button
+						colorScheme='info'
+						mt='3'
+						flex={1}
+						onPress={handleSubmit((data) => updateAccount(data, account.id))}>
 						Update Account
 					</Button>
 					<Button
 						colorScheme='red'
 						mt='3'
+						flex={1}
 						onPress={() => deleteAccount(account.id, navigation)}>
 						Delete Account
 					</Button>
-				</Box>
-			</Container>
+				</HStack>
+			</VStack>
 		</ScrollView>
 	);
 };

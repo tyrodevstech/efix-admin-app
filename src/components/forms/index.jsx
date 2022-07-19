@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Controller } from 'react-hook-form';
 import {
 	Input,
@@ -10,6 +10,7 @@ import {
 	Box,
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
+import debounce from 'lodash.debounce';
 
 export const CustomInput = ({
 	type,
@@ -164,7 +165,14 @@ export const CustomTextArea = ({
 	);
 };
 
-export const CustomSearchInput = ({ placeholder }) => {
+export const CustomSearchInput = ({
+	placeholder,
+	handleSearch: { search, setSearch,setSearchLoading },
+}) => {
+	const handlerSearch = debounce((value) => {
+		if (setSearchLoading) setSearchLoading(true);
+		setSearch(value)
+	}, 1000);
 	return (
 		<Box
 			width='100%'
@@ -174,7 +182,9 @@ export const CustomSearchInput = ({ placeholder }) => {
 			padding='3'
 			mb='5'>
 			<Input
+				onChangeText={(value) => handlerSearch(value)}
 				placeholder={placeholder}
+				// value={search}
 				width='100%'
 				borderRadius='4'
 				size='md'

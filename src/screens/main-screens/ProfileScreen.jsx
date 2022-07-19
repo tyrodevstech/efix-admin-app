@@ -20,7 +20,7 @@ export const ProfileScreen = ({ navigation }) => {
 		<ScrollView h='100%' w='100%'>
 			<Container h='100%' w='100%' maxWidth='100%'>
 				{/* <StatusBar animated={true} barStyle='light-content' /> */}
-				<Box width='100%' padding='5'>
+				<Box width='100%' padding='4'>
 					<Box
 						mb='10'
 						// height={120}

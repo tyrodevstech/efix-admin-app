@@ -1,11 +1,14 @@
-import { Box, HStack, Icon, Text } from 'native-base';
+import { Box, Center, HStack, Icon, Image, Text } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { CustomSearchInput } from '../forms';
 import { Feather } from '@expo/vector-icons';
-export const ListHeaderComponent = ({ items }) => {
+export const ListHeaderComponent = ({ items, handleSearch }) => {
 	return (
 		<Box width='100%' p='4' pb='3'>
-			<CustomSearchInput placeholder='Search People & Places' />
+			<CustomSearchInput
+				handleSearch={handleSearch}
+				placeholder='Search People & Places'
+			/>
 			<HStack justifyContent='space-around' alignItems='center'>
 				<Text fontSize='sm' color='#fff' bold>
 					Total accounts - {items.length}

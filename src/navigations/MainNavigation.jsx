@@ -5,7 +5,7 @@ import {
 	MaterialCommunityIcons,
 	FontAwesome5,
 	Ionicons,
-	Feather
+	Feather,
 } from '@expo/vector-icons';
 import { HomeNavigation } from './HomeNavigation';
 import { ProfileScreen } from '../screens/main-screens/ProfileScreen';
@@ -17,6 +17,7 @@ export const MainNavigation = () => {
 	return (
 		<Tab.Navigator
 			initialRouteName='HomeNav'
+			backBehavior='initialRoute'
 			screenOptions={{
 				headerShown: false,
 				tabBarStyle: {},

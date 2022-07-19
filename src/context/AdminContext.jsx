@@ -11,7 +11,7 @@ export const AdminContext = createContext();
 export const AdminProvider = ({ children }) => {
 	const [admins, setAdmins] = useState([]);
 	const { authToken } = useContext(AuthContext);
-	const { setIsLoading, setCrudLoading } = useContext(LoadingContext);
+	const { setCrudLoading } = useContext(LoadingContext);
 
 	const header = {
 		headers: {
@@ -20,15 +20,15 @@ export const AdminProvider = ({ children }) => {
 		},
 	};
 
-	const getAdmins = async () => {
-		setIsLoading(true);
+	const getAdmins = async ({ search, setPageLoading, setSearchLoading }) => {
 		await axios
-			.get(`${BASE_URL}/api/admin`, header)
+			.get(`${BASE_URL}/api/admin?search=${search ? search : ''}`, header)
 			.then((response) => {
 				setAdmins(response.data);
 			})
 			.catch((error) => handleError(error));
-		setIsLoading(false);
+		if (setPageLoading) setPageLoading(false);
+		if (setSearchLoading) setSearchLoading(false);
 	};
 
 	const createAdmin = async (data) => {

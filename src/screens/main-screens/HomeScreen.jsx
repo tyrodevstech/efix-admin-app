@@ -9,17 +9,28 @@ import {
 	ScrollView,
 	VStack,
 	Text,
-	Avatar,
 	HStack,
 	Divider,
 } from 'native-base';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
+import { TransactionContext } from '../../context/TransactionContext';
+import { useIsFocused } from '@react-navigation/native';
 
 export const HomeScreen = ({ navigation }) => {
 	const { user } = useContext(AuthContext);
+	const { due, getTotalDue } = useContext(TransactionContext);
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+		navigation.addListener('focus', (e) => {
+			getTotalDue();
+		});
+	}, [isFocused]);
+
 	return (
 		<ScrollView h='100%' w='100%' bg='#1D4ED8'>
+			<StatusBar animated={true} barStyle='light-content' />
 			<Container h='100%' w='100%' maxWidth='100%'>
 				<Box
 					height='300px'
@@ -40,25 +51,24 @@ export const HomeScreen = ({ navigation }) => {
 						mb='10'
 						justifyContent='space-evenly'
 						alignItems='center'
-						height={130}
 						width='100%'
 						bg='#1D4ED8'
 						shadow={2}
 						borderRadius='5'
 						padding='5'>
 						<VStack space={3} alignItems='center'>
-							<Text color='#fff'>Monthly</Text>
+							<Text color='#fff'>Monthly Due</Text>
 							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
 							<Heading size='md' color='#fff'>
-								৳ 500.50
+								৳ {due?.monthlyDue}
 							</Heading>
 						</VStack>
 						<Divider bg='blue.400' height='50%' orientation='vertical' />
 						<VStack space={3} alignItems='center'>
-							<Text color='#fff'>Total</Text>
+							<Text color='#fff'>Total Due</Text>
 							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
 							<Heading size='md' color='#fff'>
-								৳ 2000.00
+								৳ {due?.overAllDue}
 							</Heading>
 						</VStack>
 					</HStack>

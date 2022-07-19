@@ -1,6 +1,13 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Container, Box, ScrollView, Button } from 'native-base';
+import {
+	Container,
+	Box,
+	ScrollView,
+	Button,
+	VStack,
+	HStack,
+} from 'native-base';
 
 import { CustomInput } from '../../../components/forms';
 import { EMAIL_REGEX } from '../../../global';
@@ -23,9 +30,15 @@ export const AdminCreateScreen = ({ route }) => {
 	if (crudLoading) return <CrudLoading />;
 
 	return (
-		<ScrollView h='100%' w='100%' bg='#fff'>
-			<Container h='100%' w='100%' maxWidth='100%'>
-				<Box width='100%' padding='5'>
+		<ScrollView w='100%' h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack
+				h='100%'
+				flex={1}
+				w='100%'
+				maxWidth='100%'
+				justifyContent='space-between'
+				bg='#fff'>
+				<VStack width='100%' padding='4'>
 					<CustomInput
 						type='text'
 						name='first_name'
@@ -97,11 +110,13 @@ export const AdminCreateScreen = ({ route }) => {
 						}}
 						errors={errors}
 					/>
-					<Button bg='blue.500' mt='3' onPress={handleSubmit(createAdmin)}>
+				</VStack>
+				<HStack p='4' justifyContent='space-between' space={2}>
+					<Button colorScheme='blue' onPress={handleSubmit(createAdmin)} width='100%'>
 						Create Account
 					</Button>
-				</Box>
-			</Container>
+				</HStack>
+			</VStack>
 		</ScrollView>
 	);
 };

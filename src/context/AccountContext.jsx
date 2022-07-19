@@ -10,7 +10,7 @@ export const AccountContext = createContext();
 
 export const AccountProvider = ({ children }) => {
 	const [accounts, setAccounts] = useState([]);
-	const { setIsLoading, setCrudLoading } = useContext(LoadingContext);
+	const { setCrudLoading } = useContext(LoadingContext);
 	const { authToken } = useContext(AuthContext);
 
 	const header = {
@@ -20,15 +20,14 @@ export const AccountProvider = ({ children }) => {
 		},
 	};
 
-	const getAccounts = async (role) => {
-		setIsLoading(true);
+	const getAccounts = async ({ role,search , setPageLoading }) => {
 		await axios
-			.get(`${BASE_URL}/api/account?role=${role}`, header)
+			.get(`${BASE_URL}/api/account?role=${role}&search=${search ? search : ''}`, header)
 			.then((response) => {
 				setAccounts(response.data);
 			})
 			.catch((error) => handleError(error));
-		setIsLoading(false);
+		if (setPageLoading) setPageLoading(false);
 	};
 
 	const handleActivation = (id, active, role) => {
@@ -57,7 +56,7 @@ export const AccountProvider = ({ children }) => {
 										active ? 'deactivated' : 'activated'
 									} successfully`,
 								);
-								getAccounts(role);
+								getAccounts({ role: role });
 							})
 							.catch((error) => handleError(error));
 						setCrudLoading(false);

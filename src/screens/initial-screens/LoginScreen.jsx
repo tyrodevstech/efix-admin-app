@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, ImageBackground, StatusBar } from 'react-native';
+import {
+	Alert,
+	ImageBackground,
+	StatusBar,
+	TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
 import {
 	Container,
@@ -18,7 +23,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as SecureStore from 'expo-secure-store';
 
 import { BASE_URL } from '../../global';
-import { CrudLoading, Loading } from '../../components/loading';
+import { CrudLoading, InitLoading } from '../../components/loading';
 import { AuthContext } from '../../context/AuthContext';
 import { LoadingContext } from '../../context/LoadingContext';
 import { handleError, setSSValueFor } from '../../utils';
@@ -26,10 +31,10 @@ import { handleError, setSSValueFor } from '../../utils';
 const image = require('../../../assets/login-bg.png');
 
 export const LoginScreen = ({ route, navigation }) => {
-	const [isLoading, setIsLoading] = useState(true);
 	const { crudLoading, setCrudLoading } = useContext(LoadingContext);
-	const { setUser, authToken, setAuthToken } = useContext(AuthContext);
+	const { setUser, setAuthToken } = useContext(AuthContext);
 	const [passShow, setPassShow] = useState(false);
+	const [initLoading, setInitLoading] = useState(true);
 	const {
 		control,
 		handleSubmit,
@@ -52,6 +57,7 @@ export const LoginScreen = ({ route, navigation }) => {
 				}
 			})
 			.catch((error) => handleError(error));
+		setInitLoading(false);
 	};
 
 	const authenticate = async () => {
@@ -63,19 +69,9 @@ export const LoginScreen = ({ route, navigation }) => {
 			getUser(token, userId);
 		} else {
 			setAuthToken(null);
+			setInitLoading(false);
 		}
 	};
-
-	useEffect(() => {
-		setIsLoading(true);
-		authenticate();
-		// navigation.addListener('focus', (e) => {
-		// 	getAdmins();
-		// });
-		setIsLoading(false);
-	}, []);
-
-	if (isLoading) return <Loading />;
 
 	const onSubmit = async (data) => {
 		setCrudLoading(true);
@@ -100,7 +96,12 @@ export const LoginScreen = ({ route, navigation }) => {
 		setCrudLoading(false);
 	};
 
-	if (crudLoading) return <CrudLoading />;
+	useEffect(() => {
+		authenticate();
+	}, []);
+
+	if (initLoading) return <InitLoading />;
+	else if (crudLoading) return <CrudLoading />;
 
 	return (
 		<ImageBackground source={image} resizeMode='cover' style={{ flex: 1 }}>
@@ -184,20 +185,22 @@ export const LoginScreen = ({ route, navigation }) => {
 												/>
 											}
 											InputRightElement={
-												<Icon
-													m='2'
-													size='md'
-													mr='5'
-													color='gray.400'
-													as={
-														<Ionicons
-															name={
-																passShow ? 'eye-outline' : 'eye-off-outline'
-															}
-															onPress={() => setPassShow(!passShow)}
-														/>
-													}
-												/>
+												<TouchableOpacity
+													onPress={() => setPassShow(!passShow)}>
+													<Icon
+														m='2'
+														size='md'
+														mr='5'
+														color='gray.400'
+														as={
+															<Ionicons
+																name={
+																	passShow ? 'eye-outline' : 'eye-off-outline'
+																}
+															/>
+														}
+													/>
+												</TouchableOpacity>
 											}
 										/>
 										<FormControl.ErrorMessage>
@@ -226,7 +229,7 @@ export const LoginScreen = ({ route, navigation }) => {
 						</Link>
 
 						<Button
-							bg='blue.500'
+							colorScheme='blue'
 							mt='4'
 							_text={{
 								fontSize: 16,
