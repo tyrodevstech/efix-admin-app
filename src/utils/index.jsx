@@ -20,7 +20,7 @@ export const handleError = (error) => {
 			'Error',
 			'Faild to connect to the server. Please try again later.',
 		);
-	} else if (error?.response?.error) {
+	} else if (error?.response?.data) {
 		for (const [key, value] of Object.entries(error.response.data)) {
 			Alert.alert('Error', String(value));
 		}

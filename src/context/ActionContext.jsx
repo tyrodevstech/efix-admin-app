@@ -86,7 +86,7 @@ export const ActionProvider = ({ children }) => {
 										status === 'Paid' ? 'Unpaid' : 'Paid'
 									} successfully`,
 								);
-								getInvoices();
+								getInvoices({});
 							})
 							.catch((error) => handleError(error));
 						setCrudLoading(false);
@@ -132,7 +132,7 @@ export const ActionProvider = ({ children }) => {
 					Alert.alert('Success', 'Area added successfully');
 					setShowAreaModal(false);
 					setArea('');
-					getAreas();
+					getAreas({});
 				})
 				.catch((error) => handleError(error));
 			setCrudLoading(false);
@@ -150,7 +150,7 @@ export const ActionProvider = ({ children }) => {
 					Alert.alert('Success', 'Area updated successfully');
 					setShowAreaModal(false);
 					setArea('');
-					getAreas();
+					getAreas({});
 				})
 				.catch((error) => handleError(error));
 			setCrudLoading(false);
@@ -171,7 +171,7 @@ export const ActionProvider = ({ children }) => {
 						.delete(`${BASE_URL}/api/area/${id}/`, header)
 						.then((response) => {
 							Alert.alert('Success', 'Area deleted successfully');
-							getAreas();
+							getAreas({});
 						})
 						.catch((error) => handleError(error));
 					setCrudLoading(false);

@@ -44,7 +44,7 @@ export const HomeScreen = ({ navigation }) => {
 					borderBottomLeftRadius={100}
 				/>
 				<Box width='100%' padding='5'>
-					<Heading fontSize={20} fontWeight='500' color='#fff' mb='5' mt='5'>
+					<Heading fontSize={20} fontWeight='500' color='#fff' mb='5' mt='12'>
 						Welcome, {user?.first_name}
 					</Heading>
 					<HStack
@@ -60,7 +60,7 @@ export const HomeScreen = ({ navigation }) => {
 							<Text color='#fff'>Monthly Due</Text>
 							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
 							<Heading size='md' color='#fff'>
-								৳ {due?.monthlyDue}
+								৳ {parseFloat(due?.monthlyDue).toFixed(2)}
 							</Heading>
 						</VStack>
 						<Divider bg='blue.400' height='50%' orientation='vertical' />
@@ -68,7 +68,7 @@ export const HomeScreen = ({ navigation }) => {
 							<Text color='#fff'>Total Due</Text>
 							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
 							<Heading size='md' color='#fff'>
-								৳ {due?.overAllDue}
+								৳ {parseFloat(due?.overAllDue).toFixed(2)}
 							</Heading>
 						</VStack>
 					</HStack>

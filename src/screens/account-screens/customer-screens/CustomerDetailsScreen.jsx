@@ -41,9 +41,9 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 	});
 
 	useEffect(() => {
-		getAreas();
+		getAreas({});
 	}, []);
-
+	
 	if (crudLoading) return <CrudLoading />;
 
 	return (

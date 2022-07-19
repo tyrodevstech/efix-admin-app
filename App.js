@@ -11,41 +11,47 @@ import { ActionProvider } from './src/context/ActionContext';
 import { MainNavigation } from './src/navigations/MainNavigation';
 import { LoginScreen } from './src/screens/initial-screens/LoginScreen';
 import { AuthProvider } from './src/context/AuthContext';
-import { StatusBar } from 'react-native';
-
+import {
+	setStatusBarBackgroundColor,
+	setStatusBarTranslucent,
+} from 'expo-status-bar';
+import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
+	useEffect(() => {
+		setStatusBarTranslucent(true);
+		setStatusBarBackgroundColor('transparent');
+	}, []);
 	return (
 		<LoadingProvider>
 			<AuthProvider>
 				<TransactionProvider>
-				<AdminProvider>
-					<AccountProvider>
-						<ActionProvider>
-							<NativeBaseProvider>
-								<NavigationContainer>
-									<Stack.Navigator initialRouteName='Login'>
-										<Stack.Screen
-											name='Login'
-											component={LoginScreen}
-											options={{ headerShown: false }}
-										/>
-										<Stack.Screen
-											name='MainNav'
-											component={MainNavigation}
-											options={{
-												headerShown: false,
-											}}
-										/>
-									</Stack.Navigator>
-								</NavigationContainer>
-							</NativeBaseProvider>
-						</ActionProvider>
-					</AccountProvider>
-				</AdminProvider>
+					<AdminProvider>
+						<AccountProvider>
+							<ActionProvider>
+								<NativeBaseProvider>
+									<NavigationContainer>
+										<Stack.Navigator initialRouteName='Login'>
+											<Stack.Screen
+												name='Login'
+												component={LoginScreen}
+												options={{ headerShown: false }}
+											/>
+											<Stack.Screen
+												name='MainNav'
+												component={MainNavigation}
+												options={{
+													headerShown: false,
+												}}
+											/>
+										</Stack.Navigator>
+									</NavigationContainer>
+								</NativeBaseProvider>
+							</ActionProvider>
+						</AccountProvider>
+					</AdminProvider>
 				</TransactionProvider>
 			</AuthProvider>
 		</LoadingProvider>

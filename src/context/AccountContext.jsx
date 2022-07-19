@@ -20,9 +20,12 @@ export const AccountProvider = ({ children }) => {
 		},
 	};
 
-	const getAccounts = async ({ role,search , setPageLoading }) => {
+	const getAccounts = async ({ role, search, setPageLoading }) => {
 		await axios
-			.get(`${BASE_URL}/api/account?role=${role}&search=${search ? search : ''}`, header)
+			.get(
+				`${BASE_URL}/api/account?role=${role}&search=${search ? search : ''}`,
+				header,
+			)
 			.then((response) => {
 				setAccounts(response.data);
 			})

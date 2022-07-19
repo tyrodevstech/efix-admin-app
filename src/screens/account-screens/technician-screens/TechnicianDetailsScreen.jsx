@@ -41,7 +41,7 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 	});
 
 	useEffect(() => {
-		getAreas();
+		getAreas({});
 	}, []);
 
 	if (crudLoading) return <CrudLoading />;

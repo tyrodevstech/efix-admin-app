@@ -105,12 +105,12 @@ export const LoginScreen = ({ route, navigation }) => {
 
 	return (
 		<ImageBackground source={image} resizeMode='cover' style={{ flex: 1 }}>
-			<StatusBar
+			{/* <StatusBar
 				translucent
 				backgroundColor='transparent'
 				animated={true}
 				barStyle='light-content'
-			/>
+			/> */}
 			<Container h='100%' w='100%' maxWidth='100%'>
 				<VStack
 					width='100%'
