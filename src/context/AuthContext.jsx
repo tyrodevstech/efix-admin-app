@@ -7,7 +7,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [authToken, setAuthToken] = useState(null);
-	
+	const [deviceToken, setDeviceToken] = useState(null);
+
 	const handleLogout = (navigation) => {
 		Alert.alert('Sign Out?', 'Are you sure you want to sign out?', [
 			{
@@ -16,11 +17,11 @@ export const AuthProvider = ({ children }) => {
 			},
 			{
 				text: 'OK',
-				onPress: async() => {
-					await SecureStore.deleteItemAsync('token')
-					await SecureStore.deleteItemAsync('expiry_Date')
-					setUser(null)
-					navigation.replace('Login',);
+				onPress: async () => {
+					await SecureStore.deleteItemAsync('token');
+					await SecureStore.deleteItemAsync('expiry_Date');
+					setUser(null);
+					navigation.replace('Login');
 				},
 			},
 		]);
@@ -28,7 +29,15 @@ export const AuthProvider = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ user, authToken, setUser, setAuthToken, handleLogout }}>
+			value={{
+				user,
+				authToken,
+				deviceToken,
+				setUser,
+				setAuthToken,
+				setDeviceToken,
+				handleLogout,
+			}}>
 			{children}
 		</AuthContext.Provider>
 	);

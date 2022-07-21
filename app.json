@@ -4,7 +4,7 @@
 		"slug": "efix-admin",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/Icon_Logo.png",
+		"icon": "./assets/efix-admin.png",
 		"userInterfaceStyle": "light",
 		"splash": {
 			"image": "./assets/splash_e.png",
@@ -20,7 +20,7 @@
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
+				"foregroundImage": "./assets/efix_foreground.png",
 				"backgroundColor": "#FFFFFF"
 			},
 			"package": "com.itsource.efixadmin",

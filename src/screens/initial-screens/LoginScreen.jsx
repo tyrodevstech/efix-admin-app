@@ -32,7 +32,7 @@ const image = require('../../../assets/login-bg.png');
 
 export const LoginScreen = ({ route, navigation }) => {
 	const { crudLoading, setCrudLoading } = useContext(LoadingContext);
-	const { setUser, setAuthToken } = useContext(AuthContext);
+	const { setUser, setAuthToken, setDeviceToken } = useContext(AuthContext);
 	const [passShow, setPassShow] = useState(false);
 	const [initLoading, setInitLoading] = useState(true);
 	const {
@@ -42,17 +42,26 @@ export const LoginScreen = ({ route, navigation }) => {
 	} = useForm({ mode: 'onChange' });
 
 	const getUser = async (token, userId) => {
+		const header = {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `JWT ${token}`,
+			},
+		};
 		await axios
-			.get(`${BASE_URL}/api/admin/${userId}`, {
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `JWT ${token}`,
-				},
-			})
-			.then((response) => {
+			.get(`${BASE_URL}/api/admin/${userId}`, header)
+			.then(async (response) => {
 				if (response.status == 200) {
 					setUser(response.data);
 					setAuthToken(token);
+					const deviceToken = await SecureStore.getItemAsync('devicetoken');
+					await axios
+						.post(
+							`${BASE_URL}/api/userdevicetoken/`,
+							{ user_id: parseInt(userId), device_token: deviceToken },
+							header,
+						)
+						.catch((error) => handleError(error));
 					navigation.replace('MainNav');
 				}
 			})

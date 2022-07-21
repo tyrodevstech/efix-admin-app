@@ -71,13 +71,13 @@ export const InitLoading = () => {
 				zIndex={1}
 				justifyContent='center'
 				alignItems='flex-end'>
-				<Text color='#1D4ED8' fontSize='lg'>
+				<Text color='#1D4ED8' fontSize='md'>
 					Loading
 				</Text>
 				<AnimatedEllipsis
 					style={{
 						color: '#1D4ED8',
-						fontSize: 30,
+						fontSize: 24,
 					}}
 				/>
 			</HStack>

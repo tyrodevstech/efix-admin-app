@@ -128,13 +128,13 @@ export const AreaScreen = ({ navigation }) => {
 							direction='row'
 							justify='flex-start'
 							align='center'
-							shadow={2}
-							bg='muted.50'
+							shadow={1}
+							bg='lightBlue.50'
 							mx='4'
 							mb='3'
 							py='2'
 							px='2'
-							rounded='2'>
+							rounded='5'>
 							<Icon
 								mr='3'
 								size='md'

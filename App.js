@@ -16,6 +16,7 @@ import {
 	setStatusBarTranslucent,
 } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { registerForPushNotificationsAsync } from './src/utils';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
 	useEffect(() => {
 		setStatusBarTranslucent(true);
 		setStatusBarBackgroundColor('transparent');
+		registerForPushNotificationsAsync();
 	}, []);
 	return (
 		<LoadingProvider>
