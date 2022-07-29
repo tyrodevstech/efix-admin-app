@@ -39,8 +39,14 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 	if (crudLoading) return <CrudLoading />;
 
 	return (
-		<ScrollView w='100%'  h='100%' contentContainerStyle={{ flexGrow: 1 }}>
-			<VStack h='100%' flex={1} w='100%' maxWidth='100%' justifyContent='space-between' bg='#fff'>
+		<ScrollView w='100%' h='100%' contentContainerStyle={{ flexGrow: 1 }}>
+			<VStack
+				h='100%'
+				flex={1}
+				w='100%'
+				maxWidth='100%'
+				justifyContent='space-between'
+				bg='#fff'>
 				<VStack width='100%' padding='4'>
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {admin?.first_name}
@@ -104,7 +110,7 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 						errors={errors}
 					/>
 				</VStack>
-				<HStack p='4'  justifyContent='space-between' space={2}>
+				<HStack p='4' justifyContent='space-between' space={2}>
 					<Button
 						colorScheme='info'
 						mt='3'
@@ -112,13 +118,17 @@ export const AdminDetailsScreen = ({ route, navigation }) => {
 						onPress={handleSubmit((data) => updateAdmin(admin.id, data))}>
 						Update Account
 					</Button>
-					<Button
-						colorScheme='red'
-						mt='3'
-						flex={1}
-						onPress={() => deleteAdmin(admin.id, navigation)}>
-						Delete Account
-					</Button>
+					{!route.params?.hideDelButton ? (
+						<Button
+							colorScheme='red'
+							mt='3'
+							flex={1}
+							onPress={() => deleteAdmin(admin.id, navigation)}>
+							Delete Account
+						</Button>
+					) : (
+						<></>
+					)}
 				</HStack>
 			</VStack>
 		</ScrollView>

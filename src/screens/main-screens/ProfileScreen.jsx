@@ -22,21 +22,19 @@ export const ProfileScreen = ({ navigation }) => {
 				{/* <StatusBar animated={true} barStyle='light-content' /> */}
 				<Box width='100%' padding='4'>
 					<Box
-						mb='10'
-						// height={120}
+						mb='7'
 						flexDirection='row'
 						width='100%'
 						bg='lightBlue.50'
 						shadow={2}
 						borderRadius='5'
-						padding='5'>
+						py='6'
+						px='5'>
 						<Avatar
 							bg='pink.600'
 							size='lg'
 							mr='5'
-							source={{
-								uri: 'https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2876&q=80',
-							}}>
+							source={require('../../../assets/default_profile.jpg')}>
 							Profile Image
 						</Avatar>
 						<Box>
@@ -80,7 +78,7 @@ export const ProfileScreen = ({ navigation }) => {
 										screen: 'AdminNavigation',
 										params: {
 											screen: 'AdminDetails',
-											params: { admin: user },
+											params: { admin: user, hideDelButton: true },
 										},
 									});
 								}}>
