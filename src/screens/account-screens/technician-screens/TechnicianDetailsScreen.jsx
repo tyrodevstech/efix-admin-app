@@ -29,14 +29,21 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
+			'#id': String(account.id),
 			'name': account.name,
 			'email': account.email,
 			'phone': account.phone,
 			'other_phone': account.other_phone,
 			'role': account.role,
-			'work_area':account.work_area,
+			'work_area': account.work_area,
 			'registration_type': account.registration_type,
+			'business_name': account.business_name,
+			'country': account.country,
+			'post_office_or_union': account.post_office_or_union,
+			'house_info': account.house_info,
 			'nid': account.nid,
+			'active': account.active,
+			'date': account.date,
 		},
 	});
 
@@ -59,6 +66,17 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 					<Heading size='md' color='#333' mb='5'>
 						Deatils of {account?.name}
 					</Heading>
+					<CustomInput
+						type='text'
+						name='#id'
+						label='#ID'
+						control={control}
+						isReadOnly={true}
+						rules={{
+							required: 'Field is required',
+						}}
+						errors={errors}
+					/>
 					<CustomInput
 						type='text'
 						name='name'
@@ -124,16 +142,26 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 						placeholder='Registration Type'
 						control={control}
 						isRequired={false}
-						selecItems={{
-							Residential: 'Residential',
-							Commercial: 'Commercial',
-							Other: 'Other',
-						}}
 						selectItems={[
 							{ label: 'Residential', value: 'Residential' },
 							{ label: 'Commercial', value: 'Commercial' },
 							{ label: 'Other', value: 'Other' },
 						]}
+						rules={{
+							minLength: {
+								value: 3,
+								message: 'Value should be at least 3 characters long',
+							},
+						}}
+						errors={errors}
+					/>
+					<CustomInput
+						type='text'
+						name='business_name'
+						label='Business Name'
+						placeholder='Business Name'
+						control={control}
+						isRequired={false}
 						rules={{
 							minLength: {
 								value: 3,
@@ -159,16 +187,17 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
-
-					<CustomInput
-						type='text'
+					<CustomSelect
 						name='role'
 						label='Role'
 						placeholder='Role'
 						control={control}
-						isDisabled={true}
+						isRequired={true}
+						selectItems={[
+							{ label: 'Customer', value: 'customer' },
+							{ label: 'Technician', value: 'technician' },
+						]}
 						rules={{
-							required: 'Field is required',
 							minLength: {
 								value: 3,
 								message: 'Value should be at least 3 characters long',
@@ -178,9 +207,9 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 					/>
 					<CustomInput
 						type='text'
-						name='business_name'
-						label='Business Name'
-						placeholder='Business Name'
+						name='country'
+						label='Country'
+						placeholder='Country'
 						control={control}
 						isRequired={false}
 						rules={{
@@ -189,6 +218,31 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 								message: 'Value should be at least 3 characters long',
 							},
 						}}
+						errors={errors}
+					/>
+					<CustomInput
+						type='text'
+						name='post_office_or_union'
+						label='Post office / Union'
+						placeholder='Post office / Union'
+						control={control}
+						isRequired={false}
+						rules={{
+							minLength: {
+								value: 3,
+								message: 'Value should be at least 3 characters long',
+							},
+						}}
+						errors={errors}
+					/>
+					<CustomInput
+						type='text'
+						name='house_info'
+						label='House Info'
+						placeholder='House Info'
+						control={control}
+						isRequired={false}
+						rules={{}}
 						errors={errors}
 					/>
 					<CustomInput
@@ -198,6 +252,39 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 						placeholder='NID Number'
 						control={control}
 						isRequired={false}
+						rules={{
+							minLength: {
+								value: 3,
+								message: 'Value should be at least 3 characters long',
+							},
+						}}
+						errors={errors}
+					/>
+					<CustomSelect
+						name='active'
+						label='Account Status'
+						placeholder='Please Select'
+						control={control}
+						isRequired={true}
+						selectItems={[
+							{ label: 'Active', value: true },
+							{ label: 'Inactive', value: false },
+						]}
+						rules={{
+							minLength: {
+								value: 3,
+								message: 'Value should be at least 3 characters long',
+							},
+						}}
+						errors={errors}
+					/>
+					<CustomInput
+						type='text'
+						name='date'
+						label='Joined At'
+						placeholder='Joined At'
+						control={control}
+						isReadOnly={true}
 						rules={{
 							minLength: {
 								value: 3,

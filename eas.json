@@ -1,11 +1,11 @@
 {
 	"build": {
-		"production": {
+		"preview": {
 			"android": {
 				"buildType": "apk"
 			}
 		},
-		"preview2": {
+		"production": {
 			"android": {
 				"gradleCommand": ":app:assembleRelease"
 			}

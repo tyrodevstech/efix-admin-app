@@ -57,10 +57,10 @@ export const HomeScreen = ({ navigation }) => {
 						borderRadius='5'
 						padding='5'>
 						<VStack space={3} alignItems='center'>
-							<Text color='#fff'>Monthly Due</Text>
+							<Text color='#fff'>Total Paid</Text>
 							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
 							<Heading size='md' color='#fff'>
-								৳ {parseFloat(due?.monthlyDue).toFixed(2)}
+								৳ {parseFloat(due?.totalPaid).toFixed(2)}
 							</Heading>
 						</VStack>
 						<Divider bg='blue.400' height='50%' orientation='vertical' />
@@ -68,7 +68,7 @@ export const HomeScreen = ({ navigation }) => {
 							<Text color='#fff'>Total Due</Text>
 							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
 							<Heading size='md' color='#fff'>
-								৳ {parseFloat(due?.overAllDue).toFixed(2)}
+								৳ {parseFloat(due?.totalDue).toFixed(2)}
 							</Heading>
 						</VStack>
 					</HStack>

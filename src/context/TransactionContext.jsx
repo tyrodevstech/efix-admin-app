@@ -19,7 +19,7 @@ export const TransactionProvider = ({ children }) => {
 
 	const getTotalDue = async () => {
 		await axios
-			.get(`${BASE_URL}/api/transaction?due=total`, header)
+			.get(`${BASE_URL}/api/transaction?total=pd`, header)
 			.then((response) => {
 				setDue(response.data);
 			})

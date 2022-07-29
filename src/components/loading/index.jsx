@@ -62,7 +62,7 @@ export const InitLoading = () => {
 			right='0'
 			left='0'>
 			<ImageBackground
-				source={require('../../../assets/splash_e.png')}
+				source={require('../../../assets/splash.png')}
 				resizeMode='cover'
 				style={{ flex: 1, width: '100%' }}></ImageBackground>
 			<HStack
