@@ -4,11 +4,11 @@ import { BASE_URL } from '../global';
 import { AuthContext } from './AuthContext';
 import { handleError } from '../utils';
 
-export const TransactionContext = createContext();
+export const MiscellaneousContext = createContext();
 
-export const TransactionProvider = ({ children }) => {
+export const MiscellaneousProvider = ({ children }) => {
 	const { authToken } = useContext(AuthContext);
-	const [due, setDue] = useState(null);
+	const [totalAccount, setTotalAccount] = useState(null);
 
 	const header = {
 		headers: {
@@ -17,22 +17,22 @@ export const TransactionProvider = ({ children }) => {
 		},
 	};
 
-	const getTotalDue = async () => {
+	const getTotalAccount = async () => {
 		await axios
-			.get(`${BASE_URL}/api/transaction?total=pd`, header)
+			.get(`${BASE_URL}/api/miscellaneous?total=account`, header)
 			.then((response) => {
-				setDue(response.data);
+				setTotalAccount(response.data);
 			})
 			.catch((error) => handleError(error));
 	};
 
 	return (
-		<TransactionContext.Provider
+		<MiscellaneousContext.Provider
 			value={{
-				due,
-				getTotalDue,
+				totalAccount,
+				getTotalAccount,
 			}}>
 			{children}
-		</TransactionContext.Provider>
+		</MiscellaneousContext.Provider>
 	);
 };

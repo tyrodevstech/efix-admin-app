@@ -29,7 +29,7 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			'#id': String(account.id),
+			'#id': String(account.reg_no),
 			'name': account.name,
 			'email': account.email,
 			'phone': account.phone,
@@ -38,8 +38,8 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 			'work_area': account.work_area,
 			'registration_type': account.registration_type,
 			'business_name': account.business_name,
-			'country': account.country,
-			'post_office_or_union': account.post_office_or_union,
+			// 'country': account.country,
+			// 'post_office_or_union': account.post_office_or_union,
 			'house_info': account.house_info,
 			'nid': account.nid,
 			'active': account.active,
@@ -205,7 +205,7 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
-					<CustomInput
+					{/* <CustomInput
 						type='text'
 						name='country'
 						label='Country'
@@ -234,7 +234,7 @@ export const TechnicianDetailsScreen = ({ route, navigation }) => {
 							},
 						}}
 						errors={errors}
-					/>
+					/> */}
 					<CustomInput
 						type='text'
 						name='house_info'

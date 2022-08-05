@@ -12,7 +12,7 @@ import { CrudLoading } from '../../components/loading';
 import { Ionicons } from '@expo/vector-icons';
 
 export const ServiceDetailsScreen = ({ route, navigation }) => {
-	const { updateService } = useContext(ActionContext);
+	const { updateService,deleteService } = useContext(ActionContext);
 	const { crudLoading } = useContext(LoadingContext);
 	const { service } = route.params;
 
@@ -28,7 +28,6 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 				? service?.technician.name
 				: 'Not assigned yet',
 			'title': service.title,
-			'priority': service.priority,
 			'details': service.details,
 			'status': service.status,
 			'files': service.files,
@@ -172,37 +171,14 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 					/>
 
 					<CustomSelect
-						name='priority'
-						label='Priority'
-						placeholder='Priority'
-						control={control}
-						isRequired={false}
-						selectItems={[
-							{ label: 'High', value: 'High' },
-							{ label: 'Medium', value: 'Medium' },
-							{ label: 'Low', value: 'Low' },
-						]}
-						rules={{
-							minLength: {
-								value: 3,
-								message: 'Value should be at least 3 characters long',
-							},
-						}}
-						errors={errors}
-					/>
-					<CustomSelect
 						name='status'
 						label='Status'
-						placeholder='Status'
+						placeholder='Choose Status'
 						control={control}
 						isRequired={false}
 						selectItems={[
-							{ label: 'New', value: 'new' },
-							{ label: 'In Progress', value: 'in_progress' },
-							{ label: 'Waitting on Customer', value: 'waittingoncustomer' },
-							{ label: 'Fixed', value: 'fixed' },
-							{ label: 'Closed', value: 'closed' },
-							{ label: 'Cancelled', value: 'cancelled' },
+							{ label: 'Pending', value: 'Pending' },
+							{ label: 'Completed', value: 'Completed' },
 						]}
 						rules={{
 							minLength: {
@@ -221,11 +197,7 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						onPress={handleSubmit((data) => updateService(data, service.id))}>
 						Update Service
 					</Button>
-					<Button
-						colorScheme='red'
-						mt='3'
-						flex={1}
-						onPress={() => deleteAccount(account.id, navigation)}>
+					<Button colorScheme='red' mt='3' flex={1} onPress={() => deleteService(service.id,navigation)}>
 						Delete Service
 					</Button>
 				</HStack>

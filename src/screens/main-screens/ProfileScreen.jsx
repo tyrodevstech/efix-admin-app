@@ -13,9 +13,13 @@ import {
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
+import * as Updates from 'expo-updates';
 
 export const ProfileScreen = ({ navigation }) => {
 	const { user, handleLogout } = useContext(AuthContext);
+	async function reloadApp() {
+		await Updates.reloadAsync();
+	}
 	return (
 		<ScrollView h='100%' w='100%'>
 			<Container h='100%' w='100%' maxWidth='100%'>
@@ -106,9 +110,10 @@ export const ProfileScreen = ({ navigation }) => {
 								_pressed={{ bg: 'blueGray.200' }}
 								justifyContent='flex-start'
 								leftIcon={
-									<Icon as={Ionicons} name='help-outline' size='sm' mr='5' />
-								}>
-								About
+									<Icon as={Ionicons} name='log-out-outline' size='sm' mr='5' />
+								}
+								onPress={() => handleLogout(navigation)}>
+								Log out
 							</Button>
 							<Button
 								bg='lightBlue.50'
@@ -119,10 +124,10 @@ export const ProfileScreen = ({ navigation }) => {
 								_pressed={{ bg: 'blueGray.200' }}
 								justifyContent='flex-start'
 								leftIcon={
-									<Icon as={Ionicons} name='log-out-outline' size='sm' mr='5' />
+									<Icon as={Ionicons} name='reload-outline' size='sm' mr='5' />
 								}
-								onPress={() => handleLogout(navigation)}>
-								Log out
+								onPress={reloadApp}>
+								Reload
 							</Button>
 						</VStack>
 						<Image

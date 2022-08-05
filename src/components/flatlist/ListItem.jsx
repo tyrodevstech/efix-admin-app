@@ -115,67 +115,63 @@ export const ServiceItem = ({ service, navigateTo, role }) => {
 			<Text color='coolGray.800' mt='1' fontWeight='medium' fontSize='xl'>
 				{title}
 			</Text>
-			<HStack color='warning.600' alignItems='center'>
+			<HStack alignItems='center'>
 				<Icon
-					color='warning.600'
+					color='darkBlue.700'
 					as={Ionicons}
-					name='list-circle-outline'
+					name='list-outline'
 					size='sm'
 					mr='1'
 				/>
 				<Text
-					color='warning.600'
+					color='darkBlue.700'
 					fontSize='sm'
 					style={{ textTransform: 'capitalize' }}>
 					{status}
 				</Text>
 			</HStack>
-			<Flex direction='row' justify='space-between' align='center' mt='1'>
+			<Flex direction='row' justify='flex-end' align='center' mt='1'>
 				<Pressable
 					onPress={() => navigation.navigate(navigateTo, { service: service })}>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (
 							<>
 								{isPressed ? (
-									<Text
-										mt='2'
-										fontSize={12}
-										fontWeight='medium'
-										textDecorationLine='underline'
-										color='darkBlue.600'
-										alignSelf='flex-start'>
+									<Badge
+										size='sm'
+										py='1'
+										px='2'
+										rounded='4'
+										variant='solid'
+										colorScheme={'light'}
+										_text={{
+											textTransform: 'capitalize',
+											textDecorationLine: 'underline',
+										}}
+										leftIcon={
+											<Icon as={Ionicons} name='filter-outline' size='xs' />
+										}>
 										View Details
-									</Text>
+									</Badge>
 								) : (
-									<Text
-										mt='2'
-										fontSize={12}
-										fontWeight='medium'
-										color='darkBlue.600'>
+									<Badge
+										size='sm'
+										py='1'
+										px='2'
+										rounded='4'
+										variant='solid'
+										colorScheme={'blueGray'}
+										_text={{ textTransform: 'capitalize' }}
+										leftIcon={
+											<Icon as={Ionicons} name='filter-outline' size='xs' />
+										}>
 										View Details
-									</Text>
+									</Badge>
 								)}
 							</>
 						);
 					}}
 				</Pressable>
-
-				<Badge
-					size='sm'
-					py='1'
-					px='2'
-					variant='subtle'
-					colorScheme={
-						priority == 'High'
-							? 'error'
-							: priority == 'Medium'
-							? 'amber'
-							: 'lime'
-					}
-					_text={{ textTransform: 'capitalize' }}
-					leftIcon={<Icon as={Ionicons} name='filter-outline' size='xs' />}>
-					{priority}
-				</Badge>
 			</Flex>
 		</Box>
 	);
@@ -193,7 +189,7 @@ export const InvoiceItem = ({ invoice, navigateTo, handlePaymentStatus }) => {
 					_text={{
 						textTransform: 'capitalize',
 					}}
-					variant='outline'
+					variant='solid'
 					rounded='4'>
 					{`Total charge - ৳${
 						parseFloat(tech_charge) + parseFloat(equip_charge)
@@ -208,55 +204,56 @@ export const InvoiceItem = ({ invoice, navigateTo, handlePaymentStatus }) => {
 			<Text color='coolGray.800' mt='1' fontWeight='medium' fontSize={18}>
 				{`Invoice - ${service?.title}`}
 			</Text>
-			<HStack color='warning.600' alignItems='center'>
+			<HStack alignItems='center'>
 				<Text
-					color='warning.600'
+					color='darkBlue.700'
 					fontSize='sm'
 					style={{ textTransform: 'capitalize' }}>
 					{`created by - ${service?.technician?.phone}`}
 				</Text>
 			</HStack>
-			<Flex direction='row' justify='space-between' align='center' mt='1'>
+			<Flex direction='row' justify='flex-end' align='center' mt='1'>
 				<Pressable
 					onPress={() => navigation.navigate(navigateTo, { invoice: invoice })}>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (
 							<>
 								{isPressed ? (
-									<Text
-										mt='2'
-										fontSize={12}
-										fontWeight='medium'
-										textDecorationLine='underline'
-										color='darkBlue.600'
-										alignSelf='flex-start'>
+									<Badge
+										size='sm'
+										py='1'
+										px='2'
+										rounded='4'
+										variant='solid'
+										colorScheme={'light'}
+										_text={{
+											textTransform: 'capitalize',
+											textDecorationLine: 'underline',
+										}}
+										leftIcon={
+											<Icon as={Ionicons} name='filter-outline' size='xs' />
+										}>
 										View Details
-									</Text>
+									</Badge>
 								) : (
-									<Text
-										mt='2'
-										fontSize={12}
-										fontWeight='medium'
-										color='darkBlue.600'>
+									<Badge
+										size='sm'
+										py='1'
+										px='2'
+										rounded='4'
+										variant='solid'
+										colorScheme={'blueGray'}
+										_text={{ textTransform: 'capitalize' }}
+										leftIcon={
+											<Icon as={Ionicons} name='filter-outline' size='xs' />
+										}>
 										View Details
-									</Text>
+									</Badge>
 								)}
 							</>
 						);
 					}}
 				</Pressable>
-
-				<Button
-					size='sm'
-					py='1'
-					px='2'
-					onPress={() => handlePaymentStatus(id, status)}
-					// variant='subtle'
-					colorScheme={status == 'Unpaid' ? 'error' : 'lime'}
-					_text={{ textTransform: 'capitalize' }}
-					leftIcon={<Icon as={Ionicons} name='filter-outline' size='xs' />}>
-					{status}
-				</Button>
 			</Flex>
 		</Box>
 	);

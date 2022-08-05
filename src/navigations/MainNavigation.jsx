@@ -9,7 +9,7 @@ import {
 } from '@expo/vector-icons';
 import { HomeNavigation } from './HomeNavigation';
 import { ProfileScreen } from '../screens/main-screens/ProfileScreen';
-import { TransactionScreen } from '../screens/main-screens/TransactionScreen';
+import { AboutScreen } from '../screens/main-screens/AboutScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,10 +27,10 @@ export const MainNavigation = () => {
 				tabBarInactiveTintColor: '#888',
 			}}>
 			<Tab.Screen
-				name='Transaction'
-				component={TransactionScreen}
+				name='About'
+				component={AboutScreen}
 				options={{
-					tabBarLabel: 'Transaction',
+					tabBarLabel: 'About',
 					tabBarIcon: ({ color }) => (
 						<Feather name='activity' color={color} size={20} />
 					),

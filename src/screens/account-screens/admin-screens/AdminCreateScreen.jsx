@@ -88,8 +88,8 @@ export const AdminCreateScreen = ({ route }) => {
 						rules={{
 							required: 'Field is required',
 							minLength: {
-								value: 6,
-								message: 'Password should be at least 6 characters long',
+								value: 4,
+								message: 'Password should be at least 4 characters long',
 							},
 						}}
 						errors={errors}
@@ -103,8 +103,8 @@ export const AdminCreateScreen = ({ route }) => {
 						rules={{
 							required: 'Field is required',
 							minLength: {
-								value: 6,
-								message: 'Password should be at least 6 characters long',
+								value: 4,
+								message: 'Password should be at least 4 characters long',
 							},
 							validate: (value) => value === pwd || 'Password do no match',
 						}}

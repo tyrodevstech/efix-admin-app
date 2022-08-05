@@ -166,7 +166,7 @@ export const LoginScreen = ({ route, navigation }) => {
 									required: 'Field is required',
 									minLength: {
 										value: 3,
-										message: 'Password should be at least 6 characters long',
+										message: 'Username should be at least 3 characters long',
 									},
 								}}
 								defaultValue=''
@@ -221,8 +221,8 @@ export const LoginScreen = ({ route, navigation }) => {
 								rules={{
 									required: 'Field is required',
 									minLength: {
-										value: 6,
-										message: 'Password should be at least 6 characters long',
+										value: 4,
+										message: 'Password should be at least 4 characters long',
 									},
 								}}
 								defaultValue=''

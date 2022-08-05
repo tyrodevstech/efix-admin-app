@@ -14,17 +14,17 @@ import {
 } from 'native-base';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
-import { TransactionContext } from '../../context/TransactionContext';
+import { MiscellaneousContext } from '../../context/MiscellaneousContext';
 import { useIsFocused } from '@react-navigation/native';
 
 export const HomeScreen = ({ navigation }) => {
 	const { user } = useContext(AuthContext);
-	const { due, getTotalDue } = useContext(TransactionContext);
+	const { totalAccount, getTotalAccount } = useContext(MiscellaneousContext);
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		navigation.addListener('focus', (e) => {
-			getTotalDue();
+			getTotalAccount();
 		});
 	}, [isFocused]);
 
@@ -57,22 +57,21 @@ export const HomeScreen = ({ navigation }) => {
 						borderRadius='5'
 						padding='5'>
 						<VStack space={3} alignItems='center'>
-							<Text color='#fff'>Total Paid</Text>
-							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
-							<Heading size='md' color='#fff'>
-								৳ {parseFloat(due?.totalPaid).toFixed(2)}
+							<Text color='#fff'>Total Customer</Text>
+							<Icon as={Feather} name='users' size='lg' color='#fff' />
+							<Heading size='lg' color='#fff'>
+								{totalAccount?.totalCustomerAcc}
 							</Heading>
 						</VStack>
 						<Divider bg='blue.400' height='50%' orientation='vertical' />
 						<VStack space={3} alignItems='center'>
-							<Text color='#fff'>Total Due</Text>
-							<Icon as={Feather} name='calendar' size='lg' color='#fff' />
-							<Heading size='md' color='#fff'>
-								৳ {parseFloat(due?.totalDue).toFixed(2)}
+							<Text color='#fff'>Total Technician</Text>
+							<Icon as={Feather} name='users' size='lg' color='#fff' />
+							<Heading size='lg' color='#fff'>
+								{totalAccount?.totalTechnicianAcc}
 							</Heading>
 						</VStack>
 					</HStack>
-
 					<Box
 						width='100%'
 						maxWidth='100%'
@@ -171,7 +170,7 @@ export const HomeScreen = ({ navigation }) => {
 								}
 								// style={{borderBottomWidth:1,borderBottomColor:'#e5e7ff'}}
 								onPress={() => navigation.navigate('ServiceNavigation')}>
-								Requested Service
+								Requested Services
 							</Button>
 							<Button
 								bg='lightBlue.50'
@@ -213,7 +212,7 @@ export const HomeScreen = ({ navigation }) => {
 								}
 								// style={{borderBottomWidth:1,borderBottomColor:'#e5e7ff'}}
 								onPress={() => navigation.navigate('InvoiceNavigation')}>
-								All Invoice
+								Invoices
 							</Button>
 						</VStack>
 					</Box>

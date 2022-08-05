@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NativeBaseProvider } from 'native-base';
 
 import { AdminProvider } from './src/context/AdminContext';
-import { TransactionProvider } from './src/context/TransactionContext';
+import { MiscellaneousProvider } from './src/context/MiscellaneousContext';
 import { AccountProvider } from './src/context/AccountContext';
 import { LoadingProvider } from './src/context/LoadingContext';
 import { ActionProvider } from './src/context/ActionContext';
@@ -29,7 +29,7 @@ export default function App() {
 	return (
 		<LoadingProvider>
 			<AuthProvider>
-				<TransactionProvider>
+				<MiscellaneousProvider>
 					<AdminProvider>
 						<AccountProvider>
 							<ActionProvider>
@@ -54,7 +54,7 @@ export default function App() {
 							</ActionProvider>
 						</AccountProvider>
 					</AdminProvider>
-				</TransactionProvider>
+				</MiscellaneousProvider>
 			</AuthProvider>
 		</LoadingProvider>
 	);

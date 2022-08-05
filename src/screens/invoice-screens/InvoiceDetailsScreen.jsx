@@ -24,9 +24,8 @@ import { ActionContext } from '../../context/ActionContext';
 import { BASE_URL } from '../../global';
 
 export const InvoiceDetailsScreen = ({ route, navigation }) => {
-	const { updateInvoice } = useContext(ActionContext);
-	const { crudLoading} =
-		useContext(LoadingContext);
+	const { updateInvoice, deleteInvoice } = useContext(ActionContext);
+	const { crudLoading } = useContext(LoadingContext);
 	const { invoice } = route.params;
 
 	const {
@@ -202,7 +201,7 @@ export const InvoiceDetailsScreen = ({ route, navigation }) => {
 						colorScheme='red'
 						mt='3'
 						flex={1}
-						onPress={() => deleteAccount(invoice.id, navigation)}>
+						onPress={() => deleteInvoice(invoice.id, navigation)}>
 						Delete Invoice
 					</Button>
 				</HStack>

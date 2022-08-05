@@ -47,7 +47,28 @@ export const ActionProvider = ({ children }) => {
 			.catch((error) => handleError(error));
 		setCrudLoading(false);
 	};
-
+	const deleteService = (id, navigation) => {
+		Alert.alert('Delete?', 'Are you sure you want to delete?', [
+			{
+				text: 'Cancel',
+				style: 'cancel',
+			},
+			{
+				text: 'OK',
+				onPress: async () => {
+					setCrudLoading(true);
+					await axios
+						.delete(`${BASE_URL}/api/service_request/${id}/`, header)
+						.then((response) => {
+							Alert.alert('Success', 'Service deleted successfully');
+							navigation.goBack();
+						})
+						.catch((error) => handleError(error));
+					setCrudLoading(false);
+				},
+			},
+		]);
+	};
 	// Invoice
 	const getInvoices = async ({ search, setPageLoading }) => {
 		await axios
@@ -57,43 +78,6 @@ export const ActionProvider = ({ children }) => {
 			})
 			.catch((error) => handleError(error));
 		if (setPageLoading) setPageLoading(false);
-	};
-	const handlePaymentStatus = (id, status) => {
-		Alert.alert(
-			'Confirm?',
-			`Are you sure you want to update payment status to ${
-				status === 'Paid' ? 'Unpaid' : 'Paid'
-			}?`,
-			[
-				{
-					text: 'Cancel',
-					style: 'cancel',
-				},
-				{
-					text: 'OK',
-					onPress: async () => {
-						setCrudLoading(true);
-						await axios
-							.patch(
-								`${BASE_URL}/api/invoice/${id}/`,
-								{ status: status === 'Paid' ? 'Unpaid' : 'Paid' },
-								header,
-							)
-							.then((res) => {
-								Alert.alert(
-									'Success',
-									`Payment Status Updated to ${
-										status === 'Paid' ? 'Unpaid' : 'Paid'
-									} successfully`,
-								);
-								getInvoices({});
-							})
-							.catch((error) => handleError(error));
-						setCrudLoading(false);
-					},
-				},
-			],
-		);
 	};
 	const updateInvoice = async (data, id) => {
 		setCrudLoading(true);
@@ -108,6 +92,28 @@ export const ActionProvider = ({ children }) => {
 			.then((res) => Alert.alert('Success', 'Invoice updated successfully'))
 			.catch((error) => handleError(error));
 		setCrudLoading(false);
+	};
+	const deleteInvoice = (id, navigation) => {
+		Alert.alert('Delete?', 'Are you sure you want to delete?', [
+			{
+				text: 'Cancel',
+				style: 'cancel',
+			},
+			{
+				text: 'OK',
+				onPress: async () => {
+					setCrudLoading(true);
+					await axios
+						.delete(`${BASE_URL}/api/invoice/${id}/`, header)
+						.then((response) => {
+							Alert.alert('Success', 'Invoice deleted successfully');
+							navigation.goBack();
+						})
+						.catch((error) => handleError(error));
+					setCrudLoading(false);
+				},
+			},
+		]);
 	};
 	// Working Area
 	const getAreas = async ({ search, setPageLoading }) => {
@@ -191,10 +197,11 @@ export const ActionProvider = ({ children }) => {
 				setService,
 				getService,
 				updateService,
+				deleteService,
 				setInvoices,
 				getInvoices,
 				updateInvoice,
-				handlePaymentStatus,
+				deleteInvoice,
 				setShowAreaModal,
 				setAreaMode,
 				setAreas,
