@@ -79,7 +79,7 @@ export const AccountProvider = ({ children }) => {
 	};
 
 	const deleteAccount = (id, navigation) => {
-		Alert.alert('Sign Out?', 'Are you sure you want to sign out?', [
+		Alert.alert('Delete?', 'Are you sure you want to delete?', [
 			{
 				text: 'Cancel',
 				style: 'cancel',

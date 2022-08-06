@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "356483200790",
-    "project_id": "efix-admin",
-    "storage_bucket": "efix-admin.appspot.com"
+    "project_number": "867214370467",
+    "project_id": "efix-admin-app",
+    "storage_bucket": "efix-admin-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:356483200790:android:56d599b8a8e8285233c237",
+        "mobilesdk_app_id": "1:867214370467:android:ee9856bf692136408ac116",
         "android_client_info": {
           "package_name": "com.itsource.efixadmin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "356483200790-1o7432cairtt3uqu1s4ccpc07e43uatu.apps.googleusercontent.com",
+          "client_id": "867214370467-o4dnnulpjurvrmfg007m1vms9apmfnqa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBwQd40uJKf2dF8k59HapxVDFHOQ26UG6Y"
+          "current_key": "AIzaSyCk_8ltlbSWJG_nB4G5jdE5ljsbQNHCygk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "356483200790-1o7432cairtt3uqu1s4ccpc07e43uatu.apps.googleusercontent.com",
+              "client_id": "867214370467-o4dnnulpjurvrmfg007m1vms9apmfnqa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
