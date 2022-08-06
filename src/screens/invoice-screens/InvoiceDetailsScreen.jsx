@@ -43,11 +43,6 @@ export const InvoiceDetailsScreen = ({ route, navigation }) => {
 			'created_at': invoice.created_at,
 		},
 	});
-	const header = {
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	};
 
 	if (crudLoading) return <CrudLoading />;
 

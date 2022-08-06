@@ -1,16 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import {
-	Container,
-	Box,
 	ScrollView,
 	Button,
 	Heading,
 	VStack,
 	HStack,
+	Icon,
 } from 'native-base';
+import { useForm } from 'react-hook-form';
+import { Ionicons } from '@expo/vector-icons';
+import * as Linking from "expo-linking";
 import { CustomInput, CustomSelect } from '../../../components/forms';
 import { EMAIL_REGEX } from '../../../global';
-import { useForm } from 'react-hook-form';
 
 import { LoadingContext } from '../../../context/LoadingContext';
 import { CrudLoading } from '../../../components/loading';
@@ -119,6 +120,20 @@ export const CustomerDetailsScreen = ({ route, navigation }) => {
 							},
 						}}
 						errors={errors}
+						InputRightElement={
+							<Button
+								onPress={() =>
+									Linking.openURL(`tel:${account.phone}`)
+								}
+								variant='solid'
+								p='2'
+								colorScheme={'teal'}
+								size='xs'
+								mr='1.5'
+								leftIcon={<Icon as={Ionicons} name='call-outline' size='xs' />}>
+								Call
+							</Button>
+						}
 					/>
 					<CustomInput
 						type='text'

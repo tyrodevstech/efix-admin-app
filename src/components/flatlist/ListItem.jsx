@@ -12,6 +12,7 @@ import {
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as Linking from "expo-linking";
 
 export const AccountItem = ({
 	account,
@@ -34,10 +35,26 @@ export const AccountItem = ({
 					{active ? 'Active' : 'Inactive'}
 				</Badge>
 				<Spacer />
-				<HStack color='coolGray.800' alignItems='center'>
-					<Icon as={Ionicons} name='call-outline' size='xs' mr='1' />
-					<Text fontSize='xs'>{phone}</Text>
-				</HStack>
+				<Button
+					variant='outline'
+					colorScheme='teal'
+					size='sm'
+					py='0.5'
+					px='1.5'
+					onPress={() => Linking.openURL(`tel:${account.phone}`)}>
+					<HStack alignItems='center'>
+						<Icon
+							color='teal.700'
+							as={Ionicons}
+							name='call-outline'
+							size='xs'
+							mr='1'
+						/>
+						<Text fontSize='xs' color='teal.700'>
+							{phone}
+						</Text>
+					</HStack>
+				</Button>
 			</HStack>
 			<Text color='coolGray.800' mt='1' fontWeight='medium' fontSize='xl'>
 				{name}

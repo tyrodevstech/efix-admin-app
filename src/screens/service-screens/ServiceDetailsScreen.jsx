@@ -1,5 +1,15 @@
 import React, { useContext } from 'react';
-import { ScrollView, Button, Heading, Icon, VStack, HStack } from 'native-base';
+import {
+	ScrollView,
+	Button,
+	Heading,
+	Icon,
+	VStack,
+	HStack,
+	Box,
+	Badge,
+	Link,
+} from 'native-base';
 import { useForm } from 'react-hook-form';
 import {
 	CustomInput,
@@ -12,7 +22,7 @@ import { CrudLoading } from '../../components/loading';
 import { Ionicons } from '@expo/vector-icons';
 
 export const ServiceDetailsScreen = ({ route, navigation }) => {
-	const { updateService,deleteService } = useContext(ActionContext);
+	const { updateService, deleteService } = useContext(ActionContext);
 	const { crudLoading } = useContext(LoadingContext);
 	const { service } = route.params;
 
@@ -30,7 +40,6 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 			'title': service.title,
 			'details': service.details,
 			'status': service.status,
-			'files': service.files,
 			'created_at': service.created_at,
 		},
 	});
@@ -188,6 +197,23 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						}}
 						errors={errors}
 					/>
+					<Box alignItems='flex-start' my='3'>
+						{service.files ? (
+							<Badge
+								colorScheme='blue'
+								py='1.5'
+								px='3'
+								leftIcon={
+									<Icon as={Ionicons} name='cloud-download-outline' size='sm' />
+								}>
+								<Link href={service.files} _text={{ color: 'darkBlue.600' }}>
+									Attached Files
+								</Link>
+							</Badge>
+						) : (
+							<Text>No Attached file</Text>
+						)}
+					</Box>
 				</VStack>
 				<HStack p='4' justifyContent='space-between' space={2}>
 					<Button
@@ -197,7 +223,11 @@ export const ServiceDetailsScreen = ({ route, navigation }) => {
 						onPress={handleSubmit((data) => updateService(data, service.id))}>
 						Update Service
 					</Button>
-					<Button colorScheme='red' mt='3' flex={1} onPress={() => deleteService(service.id,navigation)}>
+					<Button
+						colorScheme='red'
+						mt='3'
+						flex={1}
+						onPress={() => deleteService(service.id, navigation)}>
 						Delete Service
 					</Button>
 				</HStack>
